@@ -1,4 +1,1 @@
-﻿  HelloGL.cpp
-c:\users\antho\documents\visual studio projects\foggs_opengl_freeglut\foggs_opengl_freeglut\hellogl.cpp(24): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\antho\documents\visual studio projects\foggs_opengl_freeglut\foggs_opengl_freeglut\hellogl.cpp(29): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-  FOGGS_OpenGL_FreeGLUT.vcxproj -> C:\Users\antho\Documents\Visual Studio Projects\FOGGS_OpenGL_FreeGLUT\Debug\FOGGS_OpenGL_FreeGLUT.exe
+﻿  FOGGS_OpenGL_FreeGLUT.vcxproj -> C:\Users\Anthony Sturdy\Documents\GitHub\FOGGS_FreeGLUT_AnthonySturdy\FOGGS_OpenGL_FreeGLUT\Debug\FOGGS_OpenGL_FreeGLUT.exe
