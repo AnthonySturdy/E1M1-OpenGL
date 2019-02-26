@@ -33,7 +33,7 @@ bool Texture2D::Load(const char * path, int w, int h) {
 
 	glGenTextures(1, &_ID);	//Get next texture ID
 	glBindTexture(GL_TEXTURE_2D, _ID);	//Bind the texture to the ID
-	glTexImage2D(GL_TEXTURE_2D, 0, 3, w, h, 0, GL_RGB, GL_UNSIGNED_BYTE, tempTextureData);
+	gluBuild2DMipmaps(GL_TEXTURE_2D, 3, w, h, GL_RGB, GL_UNSIGNED_BYTE, tempTextureData);
 
 	delete[] tempTextureData;
 

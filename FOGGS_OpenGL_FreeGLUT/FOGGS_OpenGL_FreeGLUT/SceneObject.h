@@ -4,10 +4,10 @@
 
 class SceneObject {
 protected:
-	Mesh* mesh;
+	TexturedMesh* mesh;
 
 public:
-	SceneObject(Mesh* _mesh);
+	SceneObject(TexturedMesh* _mesh);
 	virtual ~SceneObject(void);
 
 	virtual void Draw() = 0;

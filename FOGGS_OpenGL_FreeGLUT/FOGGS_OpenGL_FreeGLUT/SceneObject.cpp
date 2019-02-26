@@ -1,6 +1,6 @@
 #include "SceneObject.h"
 
-SceneObject::SceneObject(Mesh* _mesh) {
+SceneObject::SceneObject(TexturedMesh* _mesh) {
 	mesh = _mesh;
 }
 

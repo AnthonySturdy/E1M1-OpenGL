@@ -1,6 +1,7 @@
 #pragma once
 
 #include"GL/freeglut.h"
+#include"Texture2D.h"
 
 struct Vector3 {
 	float x, y, z;
@@ -35,4 +36,25 @@ struct Mesh {
 	Color* colors;
 	GLushort* indices;
 	int vertexCount, colorCount, indexCount;
+};
+
+struct TexCoord {
+	float u, v;
+
+	TexCoord() {
+		u = 0;
+		v = 0;
+	}
+
+	TexCoord(float _u, float _v) {
+		u = _u;
+		v = _v;
+	}
+};
+
+struct TexturedMesh {
+	Texture2D* texture;
+	Mesh* mesh;
+	TexCoord* texCoords;
+	int texCoordCount;
 };

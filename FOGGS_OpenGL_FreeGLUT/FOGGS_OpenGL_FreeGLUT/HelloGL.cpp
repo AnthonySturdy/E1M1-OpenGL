@@ -1,5 +1,7 @@
 #include "HelloGL.h"
 
+//TODO: Implement .bmp reader from the C file provided.
+
 HelloGL::HelloGL(int argc, char* argv[]) {
 	InitGL(argc, argv);
 	InitObjects();
@@ -54,20 +56,14 @@ void HelloGL::InitObjects() {
 	camera->up = Vector3(0.0f, 1.0f, 0.0f);
 
 	Texture2D* texture = new Texture2D();
-	texture->Load("starts.raw", 512, 512);	//I GOT TO SLIDE 18 AND COMPLETED SECTION 1 IN WORD DOC
+	texture->Load("Penguins.raw", 512, 512);
 
-	Mesh* cubeMesh = MeshLoader::Load("cube.txt");
-	Mesh* pyramidMesh = MeshLoader::Load("pyramid.txt");
-	for (int i = 0; i < 300; i++) {
+	TexturedMesh* cubeMesh = MeshLoader::LoadTextured("cube.txt", texture);
+	for (int i = 0; i < 600; i++) {
 		SceneObject* object = new Cube(cubeMesh, Vector3((rand() % 400 / 10.0f) - 20.0f,
 			(rand() % 200 / 10.0f) - 10.0f,
 			-(rand() % 1000)));
 		objects.push_back(object);
-
-		SceneObject* object1 = new Cube(pyramidMesh, Vector3((rand() % 400 / 10.0f) - 20.0f,
-			(rand() % 200 / 10.0f) - 10.0f,
-			-(rand() % 1000)));
-		objects.push_back(object1);
 	}
 }
 
