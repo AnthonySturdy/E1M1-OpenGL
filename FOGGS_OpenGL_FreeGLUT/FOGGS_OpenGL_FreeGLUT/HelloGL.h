@@ -11,6 +11,7 @@
 #include"SceneObject.h"
 #include"MeshLoader.h"
 #include"Cube.h"
+#include"Texture2D.h"
 
 #define SCREEN_WIDTH 800
 #define SCREEN_HEIGHT 800

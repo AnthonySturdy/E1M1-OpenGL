@@ -7,5 +7,8 @@ c:\users\antho\documents\github\foggs_freeglut_anthonysturdy\foggs_opengl_freegl
   main.cpp
 c:\users\antho\documents\github\foggs_freeglut_anthonysturdy\foggs_opengl_freeglut\foggs_opengl_freeglut\main.cpp(5): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
   MeshLoader.cpp
+  Texture2D.cpp
+c:\users\antho\documents\github\foggs_freeglut_anthonysturdy\foggs_opengl_freeglut\foggs_opengl_freeglut\texture2d.cpp(13): warning C4101: 'fileSize': unreferenced local variable
+c:\users\antho\documents\github\foggs_freeglut_anthonysturdy\foggs_opengl_freeglut\foggs_opengl_freeglut\texture2d.cpp(12): warning C4101: 'tempTextureData': unreferenced local variable
   Generating Code...
   FOGGS_OpenGL_FreeGLUT.vcxproj -> C:\Users\antho\Documents\GitHub\FOGGS_FreeGLUT_AnthonySturdy\FOGGS_OpenGL_FreeGLUT\Debug\FOGGS_OpenGL_FreeGLUT.exe

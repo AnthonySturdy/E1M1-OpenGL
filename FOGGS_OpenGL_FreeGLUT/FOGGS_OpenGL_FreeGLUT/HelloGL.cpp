@@ -10,27 +10,6 @@ HelloGL::~HelloGL() {
 
 }
 
-void HelloGL::InitObjects() {
-	camera = new Camera();
-	camera->eye = Vector3(-5.0f, -5.0f, -5.0f);
-	camera->centre = Vector3(0.0f, 0.0f, 0.0f);
-	camera->up = Vector3(0.0f, 1.0f, 0.0f);
-
-	Mesh* cubeMesh = MeshLoader::Load("cube.txt");
-	Mesh* pyramidMesh = MeshLoader::Load("pyramid.txt");
-	for (int i = 0; i < 300; i++) {
-		SceneObject* object = new Cube(cubeMesh, Vector3((rand() % 400 / 10.0f) - 20.0f, 
-														(rand() % 200 / 10.0f) - 10.0f, 
-														-(rand() % 1000)));
-		objects.push_back(object);
-
-		SceneObject* object1 = new Cube(pyramidMesh, Vector3((rand() % 400 / 10.0f) - 20.0f,
-			(rand() % 200 / 10.0f) - 10.0f,
-			-(rand() % 1000)));
-		objects.push_back(object1);
-	}
-}
-
 void HelloGL::InitGL(int argc, char* argv[]) {
 	GLUTCallbacks::Init(this);
 	glutInit(&argc, argv);
@@ -63,6 +42,33 @@ void HelloGL::InitGL(int argc, char* argv[]) {
 	//Enable back-face culling
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
+
+	//Enable texturing
+	glEnable(GL_TEXTURE_2D);
+}
+
+void HelloGL::InitObjects() {
+	camera = new Camera();
+	camera->eye = Vector3(-5.0f, -5.0f, -5.0f);
+	camera->centre = Vector3(0.0f, 0.0f, 0.0f);
+	camera->up = Vector3(0.0f, 1.0f, 0.0f);
+
+	Texture2D* texture = new Texture2D();
+	texture->Load("starts.raw", 512, 512);	//I GOT TO SLIDE 18 AND COMPLETED SECTION 1 IN WORD DOC
+
+	Mesh* cubeMesh = MeshLoader::Load("cube.txt");
+	Mesh* pyramidMesh = MeshLoader::Load("pyramid.txt");
+	for (int i = 0; i < 300; i++) {
+		SceneObject* object = new Cube(cubeMesh, Vector3((rand() % 400 / 10.0f) - 20.0f,
+			(rand() % 200 / 10.0f) - 10.0f,
+			-(rand() % 1000)));
+		objects.push_back(object);
+
+		SceneObject* object1 = new Cube(pyramidMesh, Vector3((rand() % 400 / 10.0f) - 20.0f,
+			(rand() % 200 / 10.0f) - 10.0f,
+			-(rand() % 1000)));
+		objects.push_back(object1);
+	}
 }
 
 void HelloGL::Display() {

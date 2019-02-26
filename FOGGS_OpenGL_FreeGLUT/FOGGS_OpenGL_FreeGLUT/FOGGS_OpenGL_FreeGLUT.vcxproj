@@ -121,6 +121,7 @@
     <ClCompile Include="HelloGL.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MeshLoader.cpp" />
+    <ClCompile Include="Texture2D.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Cube.h" />
@@ -130,6 +131,7 @@
     <ClInclude Include="MeshLoader.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Structures.h" />
+    <ClInclude Include="Texture2D.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="FOGGS_OpenGL_FreeGLUT.rc" />
