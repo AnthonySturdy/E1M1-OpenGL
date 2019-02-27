@@ -115,6 +115,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BMPLoader.cpp" />
     <ClCompile Include="Cube.cpp" />
     <ClCompile Include="SceneObject.cpp" />
     <ClCompile Include="GLUTCallbacks.cpp" />
@@ -124,6 +125,7 @@
     <ClCompile Include="Texture2D.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BMPLoader.h" />
     <ClInclude Include="Cube.h" />
     <ClInclude Include="SceneObject.h" />
     <ClInclude Include="GLUTCallbacks.h" />

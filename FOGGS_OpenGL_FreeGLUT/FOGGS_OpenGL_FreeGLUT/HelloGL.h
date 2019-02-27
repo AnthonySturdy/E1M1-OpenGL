@@ -12,6 +12,7 @@
 #include"MeshLoader.h"
 #include"Cube.h"
 #include"Texture2D.h"
+#include"BMPLoader.h"
 
 #define SCREEN_WIDTH 800
 #define SCREEN_HEIGHT 800
@@ -35,10 +36,6 @@ private:
 
 	std::vector<SceneObject*> objects;
 
-	static Vertex vertices[];
-	static Color colours[];
-
-	static Vertex indexedVertices[];
-	static Color indexedColors[];
-	static GLushort indices[];
+	Vector4* lightPosition;
+	Lighting* lightData;
 };

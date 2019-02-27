@@ -12,7 +12,7 @@ class Cube : public SceneObject {
 private:
 	float rotation;
 	Vector3 position;
-	Texture2D* texture;
+	Material* material;
 
 public:
 	Cube(TexturedMesh* _mesh, Vector3 pos);

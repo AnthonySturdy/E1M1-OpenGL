@@ -8,8 +8,8 @@ using namespace std;
 namespace MeshLoader
 {
 	void LoadVertices(ifstream& inFile, Mesh& mesh);
-	void LoadColours(ifstream& inFile, Mesh& mesh);
 	void LoadTexCoords(ifstream& inFile, TexturedMesh& mesh);
+	void LoadNormals(ifstream& inFile, Mesh& mesh);
 	void LoadIndices(ifstream& inFile, Mesh& mesh);
 
 	void LoadVertices(ifstream& inFile, Mesh& mesh)
@@ -29,21 +29,6 @@ namespace MeshLoader
 		}
 	}
 
-	void LoadColours(ifstream& inFile, Mesh& mesh)
-	{
-		inFile >> mesh.colorCount;
-
-		if (mesh.colorCount > 0) {
-			mesh.colors = new Color[mesh.colorCount];
-
-			for (int i = 0; i < mesh.colorCount; i++) {
-				inFile >> mesh.colors[i].r;
-				inFile >> mesh.colors[i].g;
-				inFile >> mesh.colors[i].b;
-			}
-		}
-	}
-
 	void LoadTexCoords(ifstream& inFile, TexturedMesh& mesh) {
 		inFile >> mesh.texCoordCount;
 
@@ -57,6 +42,20 @@ namespace MeshLoader
 		}
 	}
 
+	void LoadNormals(ifstream& inFile, Mesh& mesh) {
+		inFile >> mesh.normalCount;
+
+		if (mesh.normalCount > 0) {
+			mesh.normals = new Vector3[mesh.normalCount];
+
+			for (int i = 0; i < mesh.normalCount; i++) {
+				inFile >> mesh.normals[i].x;
+				inFile >> mesh.normals[i].y;
+				inFile >> mesh.normals[i].z;
+			}
+		}
+	}
+
 	void LoadIndices(ifstream& inFile, Mesh& mesh)
 	{
 		inFile >> mesh.indexCount;
@@ -66,6 +65,7 @@ namespace MeshLoader
 
 			for (int i = 0; i < mesh.indexCount; i++) {
 				inFile >> mesh.indices[i];
+				std::cout << mesh.indices[i] << std::endl;
 			}
 		}
 	}
@@ -83,7 +83,7 @@ namespace MeshLoader
 		}
 
 		LoadVertices(inFile, *mesh);
-		LoadColours(inFile, *mesh);
+		LoadNormals(inFile, *mesh);
 		LoadIndices(inFile, *mesh);
 
 		return mesh;
@@ -103,8 +103,8 @@ namespace MeshLoader
 
 		//Load TexturedMesh's Mesh variables, and the TexCoords in TexturedMesh
 		LoadVertices(inFile, *tempMesh->mesh);
-		LoadColours(inFile, *tempMesh->mesh);
 		LoadTexCoords(inFile, *tempMesh);
+		LoadNormals(inFile, *tempMesh->mesh);
 		LoadIndices(inFile, *tempMesh->mesh);
 
 		tempMesh->texture = texture;

@@ -3,6 +3,9 @@
 //TODO: Implement .bmp reader from the C file provided.
 
 HelloGL::HelloGL(int argc, char* argv[]) {
+	//This doesnt work yet with 24 bit .bmp's. Works with 8bit bmp's but looks glitchy
+	//BMPLoader::LoadBitMap("BMPTEST.bmp", "BMPTEST.raw");
+	
 	InitGL(argc, argv);
 	InitObjects();
 	glutMainLoop();
@@ -47,9 +50,16 @@ void HelloGL::InitGL(int argc, char* argv[]) {
 
 	//Enable texturing
 	glEnable(GL_TEXTURE_2D);
+
+	//Enable lighting
+	glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHT0);
 }
 
 void HelloGL::InitObjects() {
+	lightPosition = new Vector4(0.0f, 0.0f, 1.0f, 0.0f);
+	lightData = new Lighting(Vector4(0.2f, 0.2f, 0.2f, 1.0f), Vector4(0.8f, 0.8f, 0.8f, 1.0f), Vector4(0.2f, 0.2f, 0.2f, 1.0f));
+
 	camera = new Camera();
 	camera->eye = Vector3(-5.0f, -5.0f, -5.0f);
 	camera->centre = Vector3(0.0f, 0.0f, 0.0f);
@@ -90,6 +100,9 @@ void HelloGL::Update() {
 	for (int i = 0; i < 600; i++) {
 		objects[i]->Update();
 	}
+
+	glLightfv(GL_LIGHT0, GL_AMBIENT, &(lightData->ambient.x));
+	glLightfv(GL_LIGHT0, GL_POSITION, &(lightPosition->x));
 }
 
 void HelloGL::Keyboard(unsigned char key, int x, int y) {
