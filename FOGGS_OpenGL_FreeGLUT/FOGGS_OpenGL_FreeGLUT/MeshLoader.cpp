@@ -22,9 +22,7 @@ namespace MeshLoader
 
 			for (int i = 0; i < mesh.vertexCount; i++)
 			{
-				inFile >> mesh.vertices[i].x;
-				inFile >> mesh.vertices[i].y;
-				inFile >> mesh.vertices[i].z;
+				inFile >> mesh.vertices[i].x >> mesh.vertices[i].y >> mesh.vertices[i].z;
 			}
 		}
 	}
@@ -36,8 +34,7 @@ namespace MeshLoader
 			mesh.texCoords = new TexCoord[mesh.texCoordCount];
 
 			for (int i = 0; i < mesh.texCoordCount; i++) {
-				inFile >> mesh.texCoords[i].u;
-				inFile >> mesh.texCoords[i].v;
+				inFile >> mesh.texCoords[i].u >> mesh.texCoords[i].v;
 			}
 		}
 	}
@@ -49,9 +46,7 @@ namespace MeshLoader
 			mesh.normals = new Vector3[mesh.normalCount];
 
 			for (int i = 0; i < mesh.normalCount; i++) {
-				inFile >> mesh.normals[i].x;
-				inFile >> mesh.normals[i].y;
-				inFile >> mesh.normals[i].z;
+				inFile >> mesh.normals[i].x >> mesh.normals[i].y >> mesh.normals[i].z;
 			}
 		}
 	}
@@ -65,7 +60,6 @@ namespace MeshLoader
 
 			for (int i = 0; i < mesh.indexCount; i++) {
 				inFile >> mesh.indices[i];
-				std::cout << mesh.indices[i] << std::endl;
 			}
 		}
 	}
