@@ -1,4 +1,3 @@
-﻿  Cube.cpp
-  MeshLoader.cpp
-  Generating Code...
-  FOGGS_OpenGL_FreeGLUT.vcxproj -> C:\Users\Anthony Sturdy\Documents\GitHub\FOGGS_FreeGLUT_AnthonySturdy\FOGGS_OpenGL_FreeGLUT\Debug\FOGGS_OpenGL_FreeGLUT.exe
+﻿  HelloGL.cpp
+c:\users\antho\documents\github\foggs_freeglut_anthonysturdy\foggs_opengl_freeglut\foggs_opengl_freeglut\hellogl.cpp(75): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  FOGGS_OpenGL_FreeGLUT.vcxproj -> C:\Users\antho\Documents\GitHub\FOGGS_FreeGLUT_AnthonySturdy\FOGGS_OpenGL_FreeGLUT\Debug\FOGGS_OpenGL_FreeGLUT.exe

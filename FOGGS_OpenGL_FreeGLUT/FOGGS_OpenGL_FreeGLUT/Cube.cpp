@@ -7,7 +7,7 @@
 Cube::Cube(TexturedMesh* _mesh, Vector3 pos) : SceneObject(_mesh) {
 	rotation = 0.0f;
 	position = pos;
-	material = new Material(Vector4(0.8f, 0.05f, 0.05f, 1.0f),
+	material = new Material(Vector4(1.0f, 1.0f, 1.0f, 1.0f),
 							Vector4(0.8f, 0.05f, 0.05f, 1.0f),
 							Vector4(1.0f, 1.0f, 1.0f, 1.0f),
 							100.0f);
@@ -26,7 +26,7 @@ void Cube::Draw() {
 }
 
 void Cube::Update() {
-	rotation += 3.0f;
+	rotation += 0.5f;
 }
 
 void Cube::DrawIndexedCube() {
