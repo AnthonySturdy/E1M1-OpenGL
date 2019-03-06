@@ -117,6 +117,7 @@
   <ItemGroup>
     <ClCompile Include="BMPLoader.cpp" />
     <ClCompile Include="Cube.cpp" />
+    <ClCompile Include="LinkedList.cpp" />
     <ClCompile Include="SceneObject.cpp" />
     <ClCompile Include="GLUTCallbacks.cpp" />
     <ClCompile Include="HelloGL.cpp" />
@@ -127,6 +128,7 @@
   <ItemGroup>
     <ClInclude Include="BMPLoader.h" />
     <ClInclude Include="Cube.h" />
+    <ClInclude Include="LinkedList.h" />
     <ClInclude Include="SceneObject.h" />
     <ClInclude Include="GLUTCallbacks.h" />
     <ClInclude Include="HelloGL.h" />

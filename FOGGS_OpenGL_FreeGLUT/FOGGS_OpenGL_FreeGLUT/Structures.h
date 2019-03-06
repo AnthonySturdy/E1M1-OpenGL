@@ -98,3 +98,12 @@ struct Material {
 		shininess = _shininess;
 	}
 };
+
+struct ListNode {
+	int* data;
+	ListNode* next = NULL;
+
+	ListNode(int* _data) {
+		data = _data;
+	}
+};

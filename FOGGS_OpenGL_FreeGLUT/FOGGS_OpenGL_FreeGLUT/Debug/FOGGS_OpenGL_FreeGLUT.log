@@ -1,3 +1,11 @@
-﻿  HelloGL.cpp
-c:\users\antho\documents\github\foggs_freeglut_anthonysturdy\foggs_opengl_freeglut\foggs_opengl_freeglut\hellogl.cpp(75): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-  FOGGS_OpenGL_FreeGLUT.vcxproj -> C:\Users\antho\Documents\GitHub\FOGGS_FreeGLUT_AnthonySturdy\FOGGS_OpenGL_FreeGLUT\Debug\FOGGS_OpenGL_FreeGLUT.exe
+﻿  Cube.cpp
+  LinkedList.cpp
+  SceneObject.cpp
+  GLUTCallbacks.cpp
+  HelloGL.cpp
+c:\users\anthony sturdy\documents\github\foggs_freeglut_anthonysturdy\foggs_opengl_freeglut\foggs_opengl_freeglut\hellogl.cpp(76): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  main.cpp
+c:\users\anthony sturdy\documents\github\foggs_freeglut_anthonysturdy\foggs_opengl_freeglut\foggs_opengl_freeglut\main.cpp(5): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  MeshLoader.cpp
+  Generating Code...
+  FOGGS_OpenGL_FreeGLUT.vcxproj -> C:\Users\Anthony Sturdy\Documents\GitHub\FOGGS_FreeGLUT_AnthonySturdy\FOGGS_OpenGL_FreeGLUT\Debug\FOGGS_OpenGL_FreeGLUT.exe
