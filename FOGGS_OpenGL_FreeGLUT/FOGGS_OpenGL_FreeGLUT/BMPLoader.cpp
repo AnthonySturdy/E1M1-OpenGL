@@ -1,80 +1,53 @@
 #include "BMPLoader.h"
 
 namespace BMPLoader {
-	// Two characters to identify the bitmap file type
-	struct bmpfile_ft {
-		char magic[2];
+	struct bitmap {
+		unsigned int width, height;
+		unsigned char* pixels;
 	};
 
-	// Bitmap header file
-	struct bmpfile_header {
-		int filesz;
-		int creator1;
-		int creator2;
-		int bmp_offset;
-	};
+	bitmap* bmp;
 
-	// Bitmap info
-	struct BITMAPINFOHEADER {
-		//int header_sz;
-		int width;
-		int height;
-		int nplanes;
-		int bitspp;
-		int compress_type;
-		int bmp_bytesz;
-		int hres;
-		int vres;
-		int ncolors;
-		int nimpcolors;
-	};
-
-	struct bmp_color {
-		unsigned char b, g, r;
-	};
-
-	BITMAPINFOHEADER bitMapInfo;
-
-	void BMPLoader::LoadBitMap(const char* fileName, const char* outFileName) {
-		bmpfile_ft magic;
-		bmpfile_header header;
-		int row, col;
-		bmp_color* image_buffer;
-
-		FILE* inFile;
-		FILE* outFile;
-		inFile = fopen(fileName, "rb");
-		outFile = fopen(outFileName, "wb");
-		if (inFile == NULL) {
-			std::cout << "Can't open file " << fileName << std::endl;
-			return;
-		}
-		std::cout << "Opened BMP file " << fileName << std::endl;
-		fread(&magic, sizeof(bmpfile_ft), 1, inFile);
-		fread(&header, sizeof(bmpfile_header), 1, inFile);
-		fread(&bitMapInfo, sizeof(BITMAPINFOHEADER), 1, inFile);
-		if (bitMapInfo.width != bitMapInfo.height) {
-			std::cout << "Bitmap is not square! " << fileName << std::endl;
-			return;
+	char* BMPLoader::LoadBitMap(const char* fileName) {
+		if (bmp && bmp->pixels) {
+			bmp->width = 0;
+			bmp->height = 0;
+			free(bmp->pixels);
+			free(bmp);
+			bmp = NULL;
+		} else {
+			bmp = NULL;
 		}
 
-		// Create a buffer to hold each line as it is read in
-		image_buffer = (bmp_color*)malloc(sizeof(bmp_color) * bitMapInfo.width);
+		FILE* f = fopen(fileName, "rb");
 
-		for (row = 0; row < bitMapInfo.height; row++) {
-			fread(image_buffer, sizeof(bmp_color), bitMapInfo.width, inFile);
-			// bmp file store colours in the order blue, green, red
-			// we need to rearrange to the order red, green, blue
-			for (col = 0; col < bitMapInfo.width; col++) {
-				putc(image_buffer[col].r, outFile);
-				putc(image_buffer[+col].g, outFile);
-				putc(image_buffer[col].b, outFile);
+		if (f) {
+			bmp = (bitmap*)malloc(sizeof(bitmap));
+			bmp->width = 0;
+			bmp->height = 0;
+			bmp->pixels = NULL;
+
+			unsigned char info[54] = { 0 };
+			fread(info, sizeof(unsigned char), 54, f);
+
+			bmp->width = *(unsigned int*)&info[18];
+			bmp->height = *(unsigned int*)&info[22];
+
+			unsigned int size = ((((bmp->width * bmp->height) + 31) & ~31) / 8) * bmp->height;
+			bmp->pixels = (unsigned char*)malloc(size);
+			fread(bmp->pixels, sizeof(unsigned char), size, f);
+			fclose(f);
+
+			//Changes RGB to BGR
+			for (int i = 0; i < size; i += 3) {
+				unsigned char tmp = bmp->pixels[i];
+				bmp->pixels[i] = bmp->pixels[i + 2];
+				bmp->pixels[i + 2] = tmp;
 			}
+
+			return (char*)bmp->pixels;
 		}
 
-		// close the .bmp and free up memory
-		fclose(inFile);
-		fclose(outFile);
-		free(image_buffer);
+		return nullptr;
 	}
 }

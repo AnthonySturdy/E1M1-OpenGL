@@ -4,10 +4,8 @@
 #include<iostream>
 #include<cstdio>
 
-// BMP Reader Converted from C to C++
-
-//TODO: Ask teacher about this, and fixing it.
+// 24 bit BMP reader. Code from: https://www.daniweb.com/programming/software-development/threads/482083/reading-a-24-bit-bmp-image-file
 
 namespace BMPLoader {
-	void LoadBitMap(const char* fileName, const char* outFileName);
+	char* LoadBitMap(const char* fileName);
 }

@@ -8,7 +8,7 @@ Texture2D::~Texture2D() {
 
 }
 
-bool Texture2D::Load(const char * path, int w, int h) {
+bool Texture2D::LoadFromRAW(const char* path, int w, int h) {
 	char* tempTextureData;
 	int fileSize;
 	std::ifstream inFile;
@@ -37,5 +37,12 @@ bool Texture2D::Load(const char * path, int w, int h) {
 
 	delete[] tempTextureData;
 
+	return true;
+}
+
+bool Texture2D::LoadFromData(char* data, int w, int h) {
+	glGenTextures(1, &_ID);	//Get next texture ID
+	glBindTexture(GL_TEXTURE_2D, _ID);	//Bind the texture to the ID
+	gluBuild2DMipmaps(GL_TEXTURE_2D, 3, w, h, GL_RGB, GL_UNSIGNED_BYTE, data);
 	return true;
 }
