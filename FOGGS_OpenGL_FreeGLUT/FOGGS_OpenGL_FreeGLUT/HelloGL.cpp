@@ -4,7 +4,7 @@
 
 HelloGL::HelloGL(int argc, char* argv[]) {
 	//This doesnt work yet with 24 bit .bmp's. Works with 8bit bmp's but looks glitchy
-	//BMPLoader::LoadBitMap("SMALL_TEST2.bmp", "SMALL_TEST2.raw");
+	BMPLoader::LoadBitMap("LAND2.BMP", "LAND2.raw");
 
 	InitGL(argc, argv);
 	InitObjects();
@@ -58,7 +58,7 @@ void HelloGL::InitGL(int argc, char* argv[]) {
 
 void HelloGL::InitObjects() {
 	lightPosition = new Vector4(0.0f, 0.0f, 1.0f, 0.0f);
-	lightData = new Lighting(Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector4(0.8f, 0.8f, 0.8f, 1.0f), Vector4(0.2f, 0.2f, 0.2f, 1.0f));
+	lightData = new Lighting(Vector4(0.2f, 0.2f, 0.2f, 1.0f), Vector4(0.8f, 0.8f, 0.8f, 1.0f), Vector4(0.2f, 0.2f, 0.2f, 1.0f));
 
 	camera = new Camera();
 	camera->eye = Vector3(-5.0f, -5.0f, -5.0f);
@@ -66,7 +66,7 @@ void HelloGL::InitObjects() {
 	camera->up = Vector3(0.0f, 1.0f, 0.0f);
 
 	Texture2D* texture = new Texture2D();
-	texture->Load("Penguins.raw", 512, 512);
+	texture->Load("LAND2.raw", 512, 512);
 
 	TexturedMesh* cubeMesh = MeshLoader::LoadTextured("cube.txt", texture);
 	for (int i = 0; i < 600; i++) {
