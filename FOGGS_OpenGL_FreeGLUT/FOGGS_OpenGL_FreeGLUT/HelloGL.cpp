@@ -65,7 +65,7 @@ void HelloGL::InitObjects() {
 	Texture2D* texture = new Texture2D();
 	texture->LoadFromRAW("pink.raw", 512, 512);
 
-	TexturedMesh* cubeMesh = MeshLoader::LoadTextured("cube.txt", texture);
+	TexturedMesh* cubeMesh = MeshLoader::LoadOBJ("pinkTeapot.obj", texture);
 	for (int i = 0; i < 600; i++) {
 		SceneObject* object = new Cube(cubeMesh, Vector3((rand() % 400 / 10.0f) - 20.0f,
 			(rand() % 200 / 10.0f) - 10.0f,

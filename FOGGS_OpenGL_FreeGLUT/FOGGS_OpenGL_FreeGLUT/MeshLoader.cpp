@@ -10,12 +10,12 @@ using namespace std;
 
 namespace MeshLoader
 {
-	void LoadVertices(ifstream& inFile, Mesh& mesh);
+	void LoadVertices(ifstream& inFile, TexturedMesh& mesh);
 	void LoadTexCoords(ifstream& inFile, TexturedMesh& mesh);
-	void LoadNormals(ifstream& inFile, Mesh& mesh);
-	void LoadIndices(ifstream& inFile, Mesh& mesh);
+	void LoadNormals(ifstream& inFile, TexturedMesh& mesh);
+	void LoadIndices(ifstream& inFile, TexturedMesh& mesh);
 
-	void LoadVertices(ifstream& inFile, Mesh& mesh)
+	void LoadVertices(ifstream& inFile, TexturedMesh& mesh)
 	{
 		inFile >> mesh.vertexCount;
 
@@ -42,7 +42,7 @@ namespace MeshLoader
 		}
 	}
 
-	void LoadNormals(ifstream& inFile, Mesh& mesh) {
+	void LoadNormals(ifstream& inFile, TexturedMesh& mesh) {
 		inFile >> mesh.normalCount;
 
 		if (mesh.normalCount > 0) {
@@ -54,20 +54,20 @@ namespace MeshLoader
 		}
 	}
 
-	void LoadIndices(ifstream& inFile, Mesh& mesh)
+	void LoadIndices(ifstream& inFile, TexturedMesh& mesh)
 	{
 		inFile >> mesh.indexCount;
 
 		if (mesh.indexCount > 0) {
-			mesh.indices = new GLushort[mesh.indexCount];
+			mesh.vertexIndices = new GLushort[mesh.indexCount];
 
 			for (int i = 0; i < mesh.indexCount; i++) {
-				inFile >> mesh.indices[i];
+				inFile >> mesh.vertexIndices[i];
 			}
 		}
 	}
 
-	Mesh* MeshLoader::Load(const char* path)
+	/*Mesh* MeshLoader::Load(const char* path)
 	{
 		Mesh* mesh = new Mesh();
 
@@ -84,11 +84,10 @@ namespace MeshLoader
 		LoadIndices(inFile, *mesh);
 
 		return mesh;
-	}
+	}*/
 
 	TexturedMesh* MeshLoader::LoadTextured(const char* path, Texture2D* texture) {
 		TexturedMesh* tempMesh = new TexturedMesh();	//Create textured mesh
-		tempMesh->mesh = new Mesh();		//Create mesh inside that textured mesh
 
 		//Load mesh file
 		ifstream inFile;
@@ -99,10 +98,10 @@ namespace MeshLoader
 		}
 
 		//Load TexturedMesh's Mesh variables, and the TexCoords in TexturedMesh
-		LoadVertices(inFile, *tempMesh->mesh);
+		LoadVertices(inFile, *tempMesh);
 		LoadTexCoords(inFile, *tempMesh);
-		LoadNormals(inFile, *tempMesh->mesh);
-		LoadIndices(inFile, *tempMesh->mesh);
+		LoadNormals(inFile, *tempMesh);
+		LoadIndices(inFile, *tempMesh);
 
 		tempMesh->texture = texture;
 
@@ -118,10 +117,12 @@ namespace MeshLoader
 			return nullptr;
 		}
 
+		std::vector<GLushort*> vertexIndices, uvIndices, normalIndices;
 		std::vector<Vertex*> tempVertices;
 		std::vector<Vector3*> tempNormals;
 		std::vector<TexCoord*> tempTexCoords;
 
+		//Fill vectors with data, loop through file line by line and process each line
 		while (std::getline(inFile, line)) {
 			//Create stringstream of current line
 			std::stringstream curLine(line);
@@ -148,16 +149,57 @@ namespace MeshLoader
 			} else if (curDataType == "f") {
 				//Face
 				unsigned int vertIndex[3], uvIndex[3], normIndex[3];
+
+				//For loop through all 3 'sections' of data on each line
 				for (int i = 0; i < 3; i++) {
 					std::string data;
 					curLine >> data;
 
-					//Need to get data from XX/XX/XX into above arrays. Got to 'f' loading section on http://www.opengl-tutorial.org/beginners-tutorials/tutorial-7-model-loading/
+					std::stringstream intStream[3];
+					int intStreamIndex = 0;
+
+					for (int i = 0; i < data.length(); i++) {
+						if (data[i] == '/') {
+							intStreamIndex++;
+						} else {
+							intStream[intStreamIndex] << data[i];
+						}
+					}
+
+					intStream[0] >> vertIndex[i];
+					intStream[1] >> uvIndex[i];
+					intStream[2] >> normIndex[i];
 				}
+
+				vertexIndices.push_back(new GLushort(vertIndex[0]));
+				vertexIndices.push_back(new GLushort(vertIndex[1]));
+				vertexIndices.push_back(new GLushort(vertIndex[2]));
+				uvIndices.push_back(new GLushort(uvIndex[0]));
+				uvIndices.push_back(new GLushort(uvIndex[1]));
+				normalIndices.push_back(new GLushort(normIndex[0]));
+				normalIndices.push_back(new GLushort(normIndex[1]));
+				normalIndices.push_back(new GLushort(normIndex[2]));
 			}
-			
 		}
 
-		return nullptr;
+		TexturedMesh* returnMesh = new TexturedMesh();
+
+		returnMesh->vertices = tempVertices[0];
+		returnMesh->texCoords = tempTexCoords[0];
+		returnMesh->normals = tempNormals[0];
+
+		returnMesh->vertexIndices = vertexIndices[0];
+		returnMesh->uvIndices = uvIndices[0];
+		returnMesh->normalIndices = normalIndices[0];
+
+		returnMesh->vertexCount = tempVertices.size();
+		returnMesh->texCoordCount = tempTexCoords.size();
+		returnMesh->normalCount = tempNormals.size();
+
+		returnMesh->indexCount = vertexIndices.size();	//This could be any of the indices, they should all be the same size.
+
+		returnMesh->texture = texture;
+
+		return returnMesh;
 	}
 }

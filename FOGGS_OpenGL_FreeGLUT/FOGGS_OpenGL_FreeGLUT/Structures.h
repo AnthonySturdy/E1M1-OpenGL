@@ -49,13 +49,6 @@ struct Vertex {
 	GLfloat x, y, z;
 };
 
-struct Mesh {
-	Vertex* vertices;
-	Vector3* normals;
-	GLushort* indices;
-	int vertexCount, normalCount, indexCount;
-};
-
 struct TexCoord {
 	float u, v;
 
@@ -70,11 +63,29 @@ struct TexCoord {
 	}
 };
 
+struct Mesh {
+	Vertex* vertices;
+	Vector3* normals;
+
+	GLushort* vertexIndices;
+	GLushort* uvIndices;
+	GLushort* normalIndices;
+
+	int vertexCount, normalCount, indexCount;
+};
+
 struct TexturedMesh {
 	Texture2D* texture;
-	Mesh* mesh;
+
+	Vertex* vertices;
+	Vector3* normals;
 	TexCoord* texCoords;
-	int texCoordCount;
+
+	GLushort* vertexIndices;
+	GLushort* uvIndices;
+	GLushort* normalIndices;
+
+	int vertexCount, normalCount, texCoordCount, indexCount;
 };
 
 struct Lighting {

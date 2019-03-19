@@ -1,5 +1,2 @@
-﻿  MeshLoader.cpp
-c:\users\anthony sturdy\documents\github\foggs_freeglut_anthonysturdy\foggs_opengl_freeglut\foggs_opengl_freeglut\meshloader.cpp(155): warning C4477: 'sscanf_s' : format string '%d' requires an argument of type 'int *', but variadic argument 1 has type 'unsigned int'
-c:\users\anthony sturdy\documents\github\foggs_freeglut_anthonysturdy\foggs_opengl_freeglut\foggs_opengl_freeglut\meshloader.cpp(155): warning C4477: 'sscanf_s' : format string '%d' requires an argument of type 'int *', but variadic argument 2 has type 'unsigned int'
-c:\users\anthony sturdy\documents\github\foggs_freeglut_anthonysturdy\foggs_opengl_freeglut\foggs_opengl_freeglut\meshloader.cpp(155): warning C4477: 'sscanf_s' : format string '%d' requires an argument of type 'int *', but variadic argument 3 has type 'unsigned int'
+﻿  Cube.cpp
   FOGGS_OpenGL_FreeGLUT.vcxproj -> C:\Users\Anthony Sturdy\Documents\GitHub\FOGGS_FreeGLUT_AnthonySturdy\FOGGS_OpenGL_FreeGLUT\Debug\FOGGS_OpenGL_FreeGLUT.exe
