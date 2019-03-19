@@ -2,6 +2,9 @@
 
 #include <iostream>
 #include <fstream>
+#include <string>
+#include <sstream>
+#include <vector>
 
 using namespace std;
 
@@ -104,5 +107,57 @@ namespace MeshLoader
 		tempMesh->texture = texture;
 
 		return tempMesh;
+	}
+
+	TexturedMesh* MeshLoader::LoadOBJ(const char* path, Texture2D* texture) {
+		std::ifstream inFile(path);
+		std::string line;
+
+		if (!inFile.is_open()) {
+			std::cout << "Couldn't open file" << std::endl;
+			return nullptr;
+		}
+
+		std::vector<Vertex*> tempVertices;
+		std::vector<Vector3*> tempNormals;
+		std::vector<TexCoord*> tempTexCoords;
+
+		while (std::getline(inFile, line)) {
+			//Create stringstream of current line
+			std::stringstream curLine(line);
+			//Current type of line it's on (represented by first characters of line)
+			std::string curDataType;
+			curLine >> curDataType;
+			std::cout << curDataType << std::endl;
+
+			if (curDataType == "v") {
+				//Vertex
+				Vertex* vert = new Vertex();
+				curLine >> vert->x >> vert->y >> vert->z;
+				tempVertices.push_back(vert);
+			} else if (curDataType == "vn") {
+				//Normal
+				Vector3* norm = new Vector3();
+				curLine >> norm->x >> norm->y >> norm->z;
+				tempNormals.push_back(norm);
+			} else if (curDataType == "vt") {
+				//TexCoord
+				TexCoord* uv = new TexCoord();
+				curLine >> uv->u >> uv->v;
+				tempTexCoords.push_back(uv);
+			} else if (curDataType == "f") {
+				//Face
+				unsigned int vertIndex[3], uvIndex[3], normIndex[3];
+				for (int i = 0; i < 3; i++) {
+					std::string data;
+					curLine >> data;
+
+					//Need to get data from XX/XX/XX into above arrays. Got to 'f' loading section on http://www.opengl-tutorial.org/beginners-tutorials/tutorial-7-model-loading/
+				}
+			}
+			
+		}
+
+		return nullptr;
 	}
 }

@@ -63,7 +63,7 @@ void HelloGL::InitObjects() {
 	camera->up = Vector3(0.0f, 1.0f, 0.0f);
 
 	Texture2D* texture = new Texture2D();
-	texture->LoadFromData(BMPLoader::LoadBitMap("SPACE.bmp"), 256, 256);
+	texture->LoadFromRAW("pink.raw", 512, 512);
 
 	TexturedMesh* cubeMesh = MeshLoader::LoadTextured("cube.txt", texture);
 	for (int i = 0; i < 600; i++) {
@@ -72,6 +72,8 @@ void HelloGL::InitObjects() {
 			-(rand() % 1000)));
 		objects.push_back(object);
 	}
+
+	MeshLoader::LoadOBJ("pinkTeapot.obj", texture);
 }
 
 void HelloGL::Display() {
