@@ -176,21 +176,47 @@ namespace MeshLoader
 				vertexIndices.push_back(new GLushort(vertIndex[2]));
 				uvIndices.push_back(new GLushort(uvIndex[0]));
 				uvIndices.push_back(new GLushort(uvIndex[1]));
+				uvIndices.push_back(new GLushort(uvIndex[2]));
 				normalIndices.push_back(new GLushort(normIndex[0]));
 				normalIndices.push_back(new GLushort(normIndex[1]));
 				normalIndices.push_back(new GLushort(normIndex[2]));
 			}
 		}
 
+		//Convert vectors into object pointer arrays
+		Vertex* v = new Vertex[tempVertices.size()];
+		for (int i = 0; i < tempVertices.size(); i++) {
+			v[i] = *tempVertices[i];
+		}
+
+		TexCoord* t = new TexCoord[tempTexCoords.size()];
+		for (int i = 0; i < tempTexCoords.size(); i++) {
+			t[i] = *tempTexCoords[i];
+		}
+
+		Vector3* n = new Vector3[tempNormals.size()];
+		for (int i = 0; i < tempNormals.size(); i++) {
+			n[i] = *tempNormals[i];
+		}
+
+		GLushort* vi = new GLushort[vertexIndices.size()];
+		GLushort* ti = new GLushort[uvIndices.size()];
+		GLushort* ni = new GLushort[normalIndices.size()];
+		for (int i = 0; i < vertexIndices.size(); i++) {	//Indices should all be same size so we can use just 1 for loop
+			vi[i] = *vertexIndices[i];
+			ti[i] = *uvIndices[i];
+			ni[i] = *normalIndices[i];
+		}
+
 		TexturedMesh* returnMesh = new TexturedMesh();
 
-		returnMesh->vertices = tempVertices[0];
-		returnMesh->texCoords = tempTexCoords[0];
-		returnMesh->normals = tempNormals[0];
+		returnMesh->vertices = v;
+		returnMesh->texCoords = t;
+		returnMesh->normals = n;
 
-		returnMesh->vertexIndices = vertexIndices[0];
-		returnMesh->uvIndices = uvIndices[0];
-		returnMesh->normalIndices = normalIndices[0];
+		returnMesh->vertexIndices = vi;
+		returnMesh->uvIndices = ti;
+		returnMesh->normalIndices = ni;
 
 		returnMesh->vertexCount = tempVertices.size();
 		returnMesh->texCoordCount = tempTexCoords.size();
@@ -199,6 +225,7 @@ namespace MeshLoader
 		returnMesh->indexCount = vertexIndices.size();	//This could be any of the indices, they should all be the same size.
 
 		returnMesh->texture = texture;
+
 
 		return returnMesh;
 	}

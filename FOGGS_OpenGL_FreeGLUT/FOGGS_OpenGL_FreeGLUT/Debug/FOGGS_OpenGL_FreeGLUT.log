@@ -1,2 +1,7 @@
-﻿  Cube.cpp
+﻿  MeshLoader.cpp
+c:\users\anthony sturdy\documents\github\foggs_freeglut_anthonysturdy\foggs_opengl_freeglut\foggs_opengl_freeglut\meshloader.cpp(161): warning C4018: '<': signed/unsigned mismatch
+c:\users\anthony sturdy\documents\github\foggs_freeglut_anthonysturdy\foggs_opengl_freeglut\foggs_opengl_freeglut\meshloader.cpp(188): warning C4018: '<': signed/unsigned mismatch
+c:\users\anthony sturdy\documents\github\foggs_freeglut_anthonysturdy\foggs_opengl_freeglut\foggs_opengl_freeglut\meshloader.cpp(193): warning C4018: '<': signed/unsigned mismatch
+c:\users\anthony sturdy\documents\github\foggs_freeglut_anthonysturdy\foggs_opengl_freeglut\foggs_opengl_freeglut\meshloader.cpp(198): warning C4018: '<': signed/unsigned mismatch
+c:\users\anthony sturdy\documents\github\foggs_freeglut_anthonysturdy\foggs_opengl_freeglut\foggs_opengl_freeglut\meshloader.cpp(205): warning C4018: '<': signed/unsigned mismatch
   FOGGS_OpenGL_FreeGLUT.vcxproj -> C:\Users\Anthony Sturdy\Documents\GitHub\FOGGS_FreeGLUT_AnthonySturdy\FOGGS_OpenGL_FreeGLUT\Debug\FOGGS_OpenGL_FreeGLUT.exe

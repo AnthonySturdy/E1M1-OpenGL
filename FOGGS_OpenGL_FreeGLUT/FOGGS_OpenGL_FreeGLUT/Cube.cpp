@@ -18,6 +18,10 @@ Cube::~Cube() {
 }
 
 void Cube::Draw() {
+	glMaterialf(GL_FRONT, GL_DIFFUSE, material->shininess);
+	glMaterialf(GL_FRONT, GL_SPECULAR, material->shininess);
+	glMaterialf(GL_FRONT, GL_SHININESS, material->shininess);
+	glMaterialf(GL_FRONT, GL_AMBIENT, material->ambient.x);
 	glPushMatrix();
 	glTranslatef(position.x, position.y, position.z);
 	glRotatef(rotation, 1.0f, 1.0f, 0.0f);
@@ -32,11 +36,10 @@ void Cube::Update() {
 void Cube::DrawIndexedCube() {
 	glBegin(GL_TRIANGLES);
 	for (int i = 0; i < mesh->indexCount; i++) {
-		std::cout << "index: " << i << std::endl;
-		//GETTING ERROR HERE AFTER A FEW ITERATIONS
-		glVertex3fv(&mesh->vertices[mesh->vertexIndices[i]].x);
-		glTexCoord2fv(&mesh->texCoords[mesh->uvIndices[i]].u);
-		glNormal3fv(&mesh->normals[mesh->normalIndices[i]].x);
+		//std::cout << "index: " << i << std::endl;
+		glVertex3fv(&mesh->vertices[mesh->vertexIndices[i] - 1].x);
+		glTexCoord2fv(&mesh->texCoords[mesh->uvIndices[i] - 1].u);
+		glNormal3fv(&mesh->normals[mesh->normalIndices[i]- 1].x);
 	}
 	glEnd();
 }

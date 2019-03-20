@@ -16,6 +16,7 @@ void HelloGL::InitGL(int argc, char* argv[]) {
 	GLUTCallbacks::Init(this);
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH);
+	glutInitDisplayMode(GLUT_DOUBLE);
 
 	//Create window
 	glutInitWindowSize(SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -46,6 +47,8 @@ void HelloGL::InitGL(int argc, char* argv[]) {
 	glCullFace(GL_BACK);
 
 	//Enable texturing
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glEnable(GL_TEXTURE_2D);
 
 	//Enable lighting
@@ -63,23 +66,23 @@ void HelloGL::InitObjects() {
 	camera->up = Vector3(0.0f, 1.0f, 0.0f);
 
 	Texture2D* texture = new Texture2D();
-	texture->LoadFromRAW("pink.raw", 512, 512);
+	texture->LoadFromRAW("Penguins.raw", 512, 512);
 
 	TexturedMesh* cubeMesh = MeshLoader::LoadOBJ("pinkTeapot.obj", texture);
-	for (int i = 0; i < 600; i++) {
+	SceneObject* object = new Cube(cubeMesh, Vector3(0, 0, 0));
+	objects.push_back(object);
+	/*for (int i = 0; i < 600; i++) {
 		SceneObject* object = new Cube(cubeMesh, Vector3((rand() % 400 / 10.0f) - 20.0f,
 			(rand() % 200 / 10.0f) - 10.0f,
 			-(rand() % 1000)));
 		objects.push_back(object);
-	}
-
-	MeshLoader::LoadOBJ("pinkTeapot.obj", texture);
+	}*/
 }
 
 void HelloGL::Display() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	for (int i = 0; i < 600; i++) {
+	for (int i = 0; i < 1; i++) {
 		objects[i]->Draw();
 	}
 
@@ -96,7 +99,7 @@ void HelloGL::Update() {
 
 	glutPostRedisplay();
 
-	for (int i = 0; i < 600; i++) {
+	for (int i = 0; i < 1; i++) {
 		objects[i]->Update();
 	}
 
