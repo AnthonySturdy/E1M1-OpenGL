@@ -42,10 +42,10 @@ namespace BMPLoader {
 			inFile.close();
 
 			//Change BGR to RGB
-			for (int i = 0; i < size / 3; i++) {
+			for (int i = 0; i < size; i+=3) {
 				unsigned char temp = bmp->pixels[i];
 				bmp->pixels[i] = bmp->pixels[i + 2];
-				bmp->pixels[1 + 2] = temp;
+				bmp->pixels[i + 2] = temp;
 			}
 
 			return (char*)bmp->pixels;
