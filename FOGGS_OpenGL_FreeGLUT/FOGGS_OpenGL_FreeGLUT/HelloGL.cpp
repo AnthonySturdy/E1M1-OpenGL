@@ -66,7 +66,7 @@ void HelloGL::InitObjects() {
 	camera->up = Vector3(0.0f, 1.0f, 0.0f);
 
 	Texture2D* texture = new Texture2D();
-	texture->LoadFromData(BMPLoader::LoadBitMap("Banana.bmp"), 400, 400);
+	texture->LoadFromRAW("Penguins.raw", 512, 512);
 
 	TexturedMesh* cubeMesh = MeshLoader::LoadOBJ("pinkTeapot.obj", texture);
 	SceneObject* object = new Cube(cubeMesh, Vector3(0, 0, 0));
@@ -105,6 +105,13 @@ void HelloGL::Update() {
 
 	glLightfv(GL_LIGHT0, GL_AMBIENT, &(lightData->ambient.x));
 	glLightfv(GL_LIGHT0, GL_POSITION, &(lightPosition->x));
+
+	POINT mousePos;
+	GetCursorPos(&mousePos);
+	camera->up.y += mousePos.y - prevMouse.y;
+	camera->up.z += mousePos.x - prevMouse.x;
+
+	prevMouse = mousePos;
 }
 
 void HelloGL::Keyboard(unsigned char key, int x, int y) {

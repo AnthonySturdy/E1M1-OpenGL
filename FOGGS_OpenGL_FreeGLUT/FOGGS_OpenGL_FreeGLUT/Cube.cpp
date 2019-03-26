@@ -30,16 +30,16 @@ void Cube::Draw() {
 }
 
 void Cube::Update() {
-	rotation += 0.5f;
+	//rotation += 0.5f;
 }
 
 void Cube::DrawIndexedCube() {
 	glBegin(GL_TRIANGLES);
 	for (int i = 0; i < mesh->indexCount; i++) {
-		//std::cout << "index: " << i << std::endl;
-		glVertex3fv(&mesh->vertices[mesh->vertexIndices[i] - 1].x);
+		//The order of this matters!!!! Pass in vertices last or else it will be broken!!!
+		glNormal3fv(&mesh->normals[mesh->normalIndices[i] - 1].x);
 		glTexCoord2fv(&mesh->texCoords[mesh->uvIndices[i] - 1].u);
-		glNormal3fv(&mesh->normals[mesh->normalIndices[i]- 1].x);
+		glVertex3fv(&mesh->vertices[mesh->vertexIndices[i] - 1].x);
 	}
 	glEnd();
 }

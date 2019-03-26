@@ -129,7 +129,6 @@ namespace MeshLoader
 			//Current type of line it's on (represented by first characters of line)
 			std::string curDataType;
 			curLine >> curDataType;
-			std::cout << curDataType << std::endl;
 
 			if (curDataType == "v") {
 				//Vertex

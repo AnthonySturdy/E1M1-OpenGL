@@ -39,4 +39,6 @@ private:
 
 	Vector4* lightPosition;
 	Lighting* lightData;
+
+	POINT prevMouse;
 };
