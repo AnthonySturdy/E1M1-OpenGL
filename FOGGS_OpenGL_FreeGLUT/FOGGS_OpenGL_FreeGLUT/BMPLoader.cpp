@@ -10,17 +10,7 @@ namespace BMPLoader {
 
 	char* BMPLoader::LoadBitMap(const char* fileName) {
 		//Reset bmp from previous texture
-		if (bmp && bmp->pixels) {
-			bmp->width = 0;
-			bmp->height = 0;
-
-			delete bmp->pixels;
-			delete bmp;
-
-			bmp = nullptr;
-		} else {
-			bmp = nullptr;
-		}
+		bmp = nullptr;
 
 		std::ifstream inFile(fileName, std::ifstream::binary);
 		if (inFile.good()) {

@@ -182,6 +182,8 @@ namespace MeshLoader
 			}
 		}
 
+		inFile.close();
+
 		//Convert vectors into object pointer arrays
 		Vertex* v = new Vertex[tempVertices.size()];
 		for (int i = 0; i < tempVertices.size(); i++) {
@@ -207,6 +209,14 @@ namespace MeshLoader
 			ni[i] = *normalIndices[i];
 		}
 
+		std::cout << "NewObj" << std::endl;
+		Triangle* tri = new Triangle[(tempVertices.size() / 3)];
+		for (int i = 0; i < tempVertices.size() / 3; i++) {
+			tri[i].v1 = tempVertices[*vertexIndices[i*3]];
+			tri[i].v2 = tempVertices[*vertexIndices[(i*3)+1]];
+			tri[i].v3 = tempVertices[*vertexIndices[(i*3)+2]];
+		}
+
 		TexturedMesh* returnMesh = new TexturedMesh();
 
 		returnMesh->vertices = v;
@@ -216,6 +226,8 @@ namespace MeshLoader
 		returnMesh->vertexIndices = vi;
 		returnMesh->uvIndices = ti;
 		returnMesh->normalIndices = ni;
+
+		returnMesh->tris = tri;
 
 		returnMesh->vertexCount = tempVertices.size();
 		returnMesh->texCoordCount = tempTexCoords.size();

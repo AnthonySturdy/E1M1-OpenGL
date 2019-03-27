@@ -1,19 +1,24 @@
-c:\users\antho\documents\visual studio projects\foggs_opengl_freeglut\foggs_opengl_freeglut\debug\vc141.pdb
-c:\users\antho\documents\visual studio projects\foggs_opengl_freeglut\foggs_opengl_freeglut\debug\vc141.idb
-c:\users\antho\documents\visual studio projects\foggs_opengl_freeglut\foggs_opengl_freeglut\debug\main.obj
-c:\users\antho\documents\visual studio projects\foggs_opengl_freeglut\foggs_opengl_freeglut\debug\hellogl.obj
-c:\users\antho\documents\visual studio projects\foggs_opengl_freeglut\foggs_opengl_freeglut\debug\glutcallbacks.obj
-c:\users\antho\documents\visual studio projects\foggs_opengl_freeglut\foggs_opengl_freeglut\debug\cube.obj
-c:\users\antho\documents\visual studio projects\foggs_opengl_freeglut\debug\foggs_opengl_freeglut.ilk
-c:\users\antho\documents\visual studio projects\foggs_opengl_freeglut\debug\foggs_opengl_freeglut.exe
-c:\users\antho\documents\visual studio projects\foggs_opengl_freeglut\debug\foggs_opengl_freeglut.pdb
-c:\users\antho\documents\visual studio projects\foggs_opengl_freeglut\foggs_opengl_freeglut\debug\foggs_opengl_freeglut.res
-c:\users\antho\documents\visual studio projects\foggs_opengl_freeglut\foggs_opengl_freeglut\debug\foggs_op.57cce662.tlog\cl.command.1.tlog
-c:\users\antho\documents\visual studio projects\foggs_opengl_freeglut\foggs_opengl_freeglut\debug\foggs_op.57cce662.tlog\cl.read.1.tlog
-c:\users\antho\documents\visual studio projects\foggs_opengl_freeglut\foggs_opengl_freeglut\debug\foggs_op.57cce662.tlog\cl.write.1.tlog
-c:\users\antho\documents\visual studio projects\foggs_opengl_freeglut\foggs_opengl_freeglut\debug\foggs_op.57cce662.tlog\link.command.1.tlog
-c:\users\antho\documents\visual studio projects\foggs_opengl_freeglut\foggs_opengl_freeglut\debug\foggs_op.57cce662.tlog\link.read.1.tlog
-c:\users\antho\documents\visual studio projects\foggs_opengl_freeglut\foggs_opengl_freeglut\debug\foggs_op.57cce662.tlog\link.write.1.tlog
-c:\users\antho\documents\visual studio projects\foggs_opengl_freeglut\foggs_opengl_freeglut\debug\foggs_op.57cce662.tlog\rc.command.1.tlog
-c:\users\antho\documents\visual studio projects\foggs_opengl_freeglut\foggs_opengl_freeglut\debug\foggs_op.57cce662.tlog\rc.read.1.tlog
-c:\users\antho\documents\visual studio projects\foggs_opengl_freeglut\foggs_opengl_freeglut\debug\foggs_op.57cce662.tlog\rc.write.1.tlog
+c:\users\anthony sturdy\documents\github\foggs_freeglut_anthonysturdy\foggs_opengl_freeglut\foggs_opengl_freeglut\debug\vc141.pdb
+c:\users\anthony sturdy\documents\github\foggs_freeglut_anthonysturdy\foggs_opengl_freeglut\foggs_opengl_freeglut\debug\vc141.idb
+c:\users\anthony sturdy\documents\github\foggs_freeglut_anthonysturdy\foggs_opengl_freeglut\foggs_opengl_freeglut\debug\main.obj
+c:\users\anthony sturdy\documents\github\foggs_freeglut_anthonysturdy\foggs_opengl_freeglut\foggs_opengl_freeglut\debug\texture2d.obj
+c:\users\anthony sturdy\documents\github\foggs_freeglut_anthonysturdy\foggs_opengl_freeglut\foggs_opengl_freeglut\debug\sceneobject.obj
+c:\users\anthony sturdy\documents\github\foggs_freeglut_anthonysturdy\foggs_opengl_freeglut\foggs_opengl_freeglut\debug\meshloader.obj
+c:\users\anthony sturdy\documents\github\foggs_freeglut_anthonysturdy\foggs_opengl_freeglut\foggs_opengl_freeglut\debug\linkedlist.obj
+c:\users\anthony sturdy\documents\github\foggs_freeglut_anthonysturdy\foggs_opengl_freeglut\foggs_opengl_freeglut\debug\glutcallbacks.obj
+c:\users\anthony sturdy\documents\github\foggs_freeglut_anthonysturdy\foggs_opengl_freeglut\foggs_opengl_freeglut\debug\cube.obj
+c:\users\anthony sturdy\documents\github\foggs_freeglut_anthonysturdy\foggs_opengl_freeglut\foggs_opengl_freeglut\debug\bmploader.obj
+c:\users\anthony sturdy\documents\github\foggs_freeglut_anthonysturdy\foggs_opengl_freeglut\foggs_opengl_freeglut\debug\hellogl.obj
+c:\users\anthony sturdy\documents\github\foggs_freeglut_anthonysturdy\foggs_opengl_freeglut\debug\foggs_opengl_freeglut.exe
+c:\users\anthony sturdy\documents\github\foggs_freeglut_anthonysturdy\foggs_opengl_freeglut\debug\foggs_opengl_freeglut.ilk
+c:\users\anthony sturdy\documents\github\foggs_freeglut_anthonysturdy\foggs_opengl_freeglut\debug\foggs_opengl_freeglut.pdb
+c:\users\anthony sturdy\documents\github\foggs_freeglut_anthonysturdy\foggs_opengl_freeglut\foggs_opengl_freeglut\debug\foggs_opengl_freeglut.res
+c:\users\anthony sturdy\documents\github\foggs_freeglut_anthonysturdy\foggs_opengl_freeglut\foggs_opengl_freeglut\debug\foggs_op.57cce662.tlog\cl.command.1.tlog
+c:\users\anthony sturdy\documents\github\foggs_freeglut_anthonysturdy\foggs_opengl_freeglut\foggs_opengl_freeglut\debug\foggs_op.57cce662.tlog\cl.read.1.tlog
+c:\users\anthony sturdy\documents\github\foggs_freeglut_anthonysturdy\foggs_opengl_freeglut\foggs_opengl_freeglut\debug\foggs_op.57cce662.tlog\cl.write.1.tlog
+c:\users\anthony sturdy\documents\github\foggs_freeglut_anthonysturdy\foggs_opengl_freeglut\foggs_opengl_freeglut\debug\foggs_op.57cce662.tlog\link.command.1.tlog
+c:\users\anthony sturdy\documents\github\foggs_freeglut_anthonysturdy\foggs_opengl_freeglut\foggs_opengl_freeglut\debug\foggs_op.57cce662.tlog\link.read.1.tlog
+c:\users\anthony sturdy\documents\github\foggs_freeglut_anthonysturdy\foggs_opengl_freeglut\foggs_opengl_freeglut\debug\foggs_op.57cce662.tlog\link.write.1.tlog
+c:\users\anthony sturdy\documents\github\foggs_freeglut_anthonysturdy\foggs_opengl_freeglut\foggs_opengl_freeglut\debug\foggs_op.57cce662.tlog\rc.command.1.tlog
+c:\users\anthony sturdy\documents\github\foggs_freeglut_anthonysturdy\foggs_opengl_freeglut\foggs_opengl_freeglut\debug\foggs_op.57cce662.tlog\rc.read.1.tlog
+c:\users\anthony sturdy\documents\github\foggs_freeglut_anthonysturdy\foggs_opengl_freeglut\foggs_opengl_freeglut\debug\foggs_op.57cce662.tlog\rc.write.1.tlog

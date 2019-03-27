@@ -10,7 +10,7 @@
 #include"Structures.h"
 #include"SceneObject.h"
 #include"MeshLoader.h"
-#include"Cube.h"
+#include"MeshObject.h"
 #include"Texture2D.h"
 #include"BMPLoader.h"
 #include"LinkedList.h"
@@ -42,11 +42,17 @@ private:
 	Camera* camera;
 	float xAngle = 0;
 	float yAngle = 0;
+	void CameraLook();
 
 	std::vector<SceneObject*> objects;
+	TexturedMesh* navigationMesh;
 
 	void Movement();
 	bool isMovingForward, isMovingBackward, isMovingLeft, isMovingRight;
+
+	float GetTriangleHeight(Triangle tri);	//Only used for navigation mesh!
+	bool IsPointInsideTriangle(Vector3 point, Triangle tri); //This is 2D not 3D
+	float GetGroundHeightAtPoint(Vector3 point, TexturedMesh* mesh);
 
 	Vector4* lightPosition;
 	Lighting* lightData;

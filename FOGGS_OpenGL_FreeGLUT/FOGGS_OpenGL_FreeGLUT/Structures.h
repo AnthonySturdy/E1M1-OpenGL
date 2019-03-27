@@ -63,6 +63,12 @@ struct TexCoord {
 	}
 };
 
+struct Triangle {
+	Vertex* v1;
+	Vertex* v2;
+	Vertex* v3;
+};
+
 struct Mesh {
 	Vertex* vertices;
 	Vector3* normals;
@@ -84,6 +90,8 @@ struct TexturedMesh {
 	GLushort* vertexIndices;
 	GLushort* uvIndices;
 	GLushort* normalIndices;
+
+	Triangle* tris;	//Not used for rendering
 
 	int vertexCount, normalCount, texCoordCount, indexCount;
 };

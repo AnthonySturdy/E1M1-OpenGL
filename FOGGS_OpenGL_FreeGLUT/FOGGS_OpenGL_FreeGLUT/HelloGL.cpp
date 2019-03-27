@@ -64,19 +64,21 @@ void HelloGL::InitObjects() {
 	lightData = new Lighting(Vector4(0.2f, 0.2f, 0.2f, 1.0f), Vector4(0.8f, 0.8f, 0.8f, 1.0f), Vector4(0.2f, 0.2f, 0.2f, 1.0f));
 
 	camera = new Camera();
-	camera->eye = Vector3(-5.0f, -5.0f, -5.0f);
+	camera->eye = Vector3(0, -5, 0);
 	camera->centre = Vector3(0.0f, 0.0f, 0.0f);
 	camera->up = Vector3(0.0f, 1.0f, 0.0f);
 
-	Texture2D* penguinTexture = new Texture2D();
-	penguinTexture->LoadFromData(BMPLoader::LoadBitMap("Assets/Textures/Banana.bmp"), 400, 400);
-	TexturedMesh* teapotMesh = MeshLoader::LoadOBJ("Assets/Models/doom_E1M1.obj", penguinTexture);
-	SceneObject* object = new MeshObject(teapotMesh, Vector3(0, 0, 0));
+	Texture2D* bananaTexture = new Texture2D();
+	bananaTexture->LoadFromData(BMPLoader::LoadBitMap("Assets/Textures/Banana.bmp"), 400, 400);
+	TexturedMesh* levelMesh = MeshLoader::LoadOBJ("Assets/Models/E1M1_Edited.obj", bananaTexture);
+	SceneObject* object = new MeshObject(levelMesh, Vector3(0, 0, 0));
 	objects.push_back(object);
 
-	TexturedMesh* treeMesh = MeshLoader::LoadOBJ("Assets/Models/Lowpoly_tree_sample.obj", penguinTexture);
-	SceneObject* treeObject = new MeshObject(treeMesh, Vector3(-30, 0, -30));
-	objects.push_back(treeObject);
+	Texture2D* spaceTexture = new Texture2D();
+	spaceTexture->LoadFromData(BMPLoader::LoadBitMap("Assets/Textures/SPACE.bmp"), 256, 256);
+	navigationMesh = MeshLoader::LoadOBJ("Assets/Models/E1M1_Navigation.obj", spaceTexture);
+	SceneObject* navigationObject = new MeshObject(navigationMesh, Vector3(0, 0.1f, 0));
+	objects.push_back(navigationObject);
 }
 
 void HelloGL::Display() {
@@ -93,33 +95,7 @@ void HelloGL::Display() {
 void HelloGL::Update() {
 	glLoadIdentity();	//Reset matrix
 
-	//First Person Camera Rotation
-	POINT mousePos;
-	GetCursorPos(&mousePos);
-	//Reset Angle on full rotation
-	if (xAngle > 360) {
-		xAngle -= 360;
-	} else if (xAngle < 0) {
-		xAngle += 360;
-	}
-
-	//Lock Up/Down rotation
-	if (yAngle > 90) {
-		yAngle = 90;
-	} else if (yAngle < -90) {
-		yAngle = -90;
-	}
-	xAngle += (mousePos.x - (SCREEN_WIDTH / 2)) * MOUSE_SENSITIVITY;
-	yAngle += (mousePos.y - (SCREEN_HEIGHT / 2)) * MOUSE_SENSITIVITY;
-
-	//https://community.khronos.org/t/about-glulookat-function-and-how-to-rotate-the-camera/67868/2
-	glRotatef(yAngle, 1.0f, 0.0f, 0.0f);
-	glRotatef(xAngle, 0.0f, 1.0f, 0.0f);
-	glTranslatef(-camera->eye.x, -(camera->eye.y + PLAYER_HEIGHT), -camera->eye.z);
-
-	SetCursorPos(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
-
-
+	CameraLook();
 	Movement();
 
 	glutPostRedisplay();
@@ -170,6 +146,37 @@ void HelloGL::KeyboardUp(unsigned char key, int x, int y) {
 	}
 }
 
+void HelloGL::CameraLook() {
+	POINT mousePos;
+	GetCursorPos(&mousePos);
+	//Reset Angle on full rotation
+	if (xAngle > 360) {
+		xAngle -= 360;
+	} else if (xAngle < 0) {
+		xAngle += 360;
+	}
+
+	//Lock Up/Down rotation
+	if (yAngle > 90) {
+		yAngle = 90;
+	} else if (yAngle < -90) {
+		yAngle = -90;
+	}
+	xAngle += (mousePos.x - (SCREEN_WIDTH / 2)) * MOUSE_SENSITIVITY;
+	yAngle += (mousePos.y - (SCREEN_HEIGHT / 2)) * MOUSE_SENSITIVITY;
+
+	float groundHeight = GetGroundHeightAtPoint(camera->eye, navigationMesh);
+	std::cout << "CameraPos: (" << camera->eye.x << ", " << camera->eye.y << ", " << camera->eye.z << ")" << std::endl;
+	std::cout << "GroundHeight: " << groundHeight << std::endl << std::endl;
+
+	//https://community.khronos.org/t/about-glulookat-function-and-how-to-rotate-the-camera/67868/2
+	glRotatef(yAngle, 1.0f, 0.0f, 0.0f);
+	glRotatef(xAngle, 0.0f, 1.0f, 0.0f);
+	glTranslatef(-camera->eye.x, -(camera->eye.y + PLAYER_HEIGHT + groundHeight), -camera->eye.z);
+
+	SetCursorPos(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+}
+
 void HelloGL::Movement() {
 	if (isMovingForward) {
 		//Convert current player rotation to radians, then vector. Add to position.
@@ -199,4 +206,46 @@ void HelloGL::Movement() {
 		camera->eye.x -= cos(xAngle * 3.141f / 180.0) * PLAYER_WALK_SPEED;
 		camera->eye.z -= sin(xAngle * 3.141f / 180.0) * PLAYER_WALK_SPEED;
 	}
+}
+
+float HelloGL::GetTriangleHeight(Triangle tri) {
+	//Although theres only horizontal triangles on navigation mesh, often one of the vertices' Y position is different to the others (Not sure why),
+	//so this ensures the anomaly vertex isn't used.
+
+	if (tri.v1->y == tri.v2->y) {
+		//If v1 and v2 are the same, neither of them are the anomoly. 
+		return tri.v1->y;
+	} else {
+		//Otherwise, we know v3 isn't the anomaly.
+		return tri.v3->y;
+	}
+}
+
+//Solution found here: https://stackoverflow.com/questions/2049582/how-to-determine-if-a-point-is-in-a-2d-triangle. Used answer by user "John Bananas".
+bool HelloGL::IsPointInsideTriangle(Vector3 point, Triangle tri) {
+	int x = point.x - tri.v1->x;
+	int z = point.z - tri.v1->z;
+
+	bool s_ab = (tri.v2->x - tri.v1->x) * z - (tri.v2->z - tri.v1->z) * x > 0;
+
+	if (((tri.v3->x - tri.v1->x) * z - (tri.v3->z - tri.v1->z) * x > 0) == s_ab)
+		return false;
+
+	if (((tri.v3->x - tri.v2->x)*(point.z - tri.v2->z) - (tri.v3->z - tri.v2->z)*(point.x - tri.v2->x) > 0) != s_ab)
+		return false;
+
+	return true;
+}
+
+float HelloGL::GetGroundHeightAtPoint(Vector3 point, TexturedMesh* mesh) {
+	for (int i = 0; i < mesh->vertexCount / 3; i++) {
+		if (IsPointInsideTriangle(point, mesh->tris[i])) {
+			std::cout << "CurTri v1: " << mesh->tris[i].v1->x << ", " << mesh->tris[i].v1->z << std::endl;
+			std::cout << "CurTri v2: " << mesh->tris[i].v2->x << ", " << mesh->tris[i].v2->z << std::endl;
+			std::cout << "CurTri v3: " << mesh->tris[i].v3->x << ", " << mesh->tris[i].v3->z << std::endl;
+			return GetTriangleHeight(mesh->tris[i]);
+		}
+	}
+
+	return 0.0f;
 }
