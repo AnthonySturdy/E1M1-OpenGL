@@ -8,15 +8,15 @@
 #include"SceneObject.h"
 #include"Texture2D.h"
 
-class Cube : public SceneObject {
+class MeshObject : public SceneObject {
 private:
 	float rotation;
 	Vector3 position;
 	Material* material;
 
 public:
-	Cube(TexturedMesh* _mesh, Vector3 pos);
-	~Cube(void);
+	MeshObject(TexturedMesh* _mesh, Vector3 pos);
+	~MeshObject(void);
 
 	void Draw();
 	void Update();

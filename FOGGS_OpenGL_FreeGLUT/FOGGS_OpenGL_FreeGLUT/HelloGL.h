@@ -15,10 +15,15 @@
 #include"BMPLoader.h"
 #include"LinkedList.h"
 
-#define SCREEN_WIDTH 800
-#define SCREEN_HEIGHT 800
+#define SCREEN_WIDTH 1920
+#define SCREEN_HEIGHT 1080
 
 #define REFRESHRATE 16
+
+#define MOUSE_SENSITIVITY 0.1
+#define PLAYER_WALK_SPEED 0.2
+#define PLAYER_HEIGHT 8
+
 
 class HelloGL {
 public:
@@ -30,15 +35,19 @@ public:
 
 	void Display();
 	void Update();
-	void Keyboard(unsigned char key, int x, int y);
+	void KeyboardDown(unsigned char key, int x, int y);
+	void KeyboardUp(unsigned char key, int x, int y);
 
 private:
 	Camera* camera;
+	float xAngle = 0;
+	float yAngle = 0;
 
 	std::vector<SceneObject*> objects;
 
+	void Movement();
+	bool isMovingForward, isMovingBackward, isMovingLeft, isMovingRight;
+
 	Vector4* lightPosition;
 	Lighting* lightData;
-
-	POINT prevMouse;
 };

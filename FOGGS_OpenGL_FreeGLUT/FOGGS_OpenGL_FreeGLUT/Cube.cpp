@@ -4,7 +4,7 @@
 #include<fstream>
 #include<iostream>
 
-Cube::Cube(TexturedMesh* _mesh, Vector3 pos) : SceneObject(_mesh) {
+MeshObject::MeshObject(TexturedMesh* _mesh, Vector3 pos) : SceneObject(_mesh) {
 	rotation = 0.0f;
 	position = pos;
 	material = new Material(Vector4(1.0f, 1.0f, 1.0f, 1.0f),
@@ -13,11 +13,11 @@ Cube::Cube(TexturedMesh* _mesh, Vector3 pos) : SceneObject(_mesh) {
 							100.0f);
 }
 
-Cube::~Cube() {
+MeshObject::~MeshObject() {
 
 }
 
-void Cube::Draw() {
+void MeshObject::Draw() {
 	glMaterialf(GL_FRONT, GL_DIFFUSE, material->shininess);
 	glMaterialf(GL_FRONT, GL_SPECULAR, material->shininess);
 	glMaterialf(GL_FRONT, GL_SHININESS, material->shininess);
@@ -29,11 +29,11 @@ void Cube::Draw() {
 	glPopMatrix();
 }
 
-void Cube::Update() {
+void MeshObject::Update() {
 	//rotation += 0.5f;
 }
 
-void Cube::DrawIndexedCube() {
+void MeshObject::DrawIndexedCube() {
 	glBegin(GL_TRIANGLES);
 	for (int i = 0; i < mesh->indexCount; i++) {
 		//The order of this matters!!!! Pass in vertices last or else it will be broken!!!
