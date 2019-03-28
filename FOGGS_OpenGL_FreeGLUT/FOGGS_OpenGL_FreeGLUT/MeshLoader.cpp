@@ -209,12 +209,11 @@ namespace MeshLoader
 			ni[i] = *normalIndices[i];
 		}
 
-		std::cout << "NewObj" << std::endl;
-		Triangle* tri = new Triangle[(tempVertices.size() / 3)];
-		for (int i = 0; i < tempVertices.size() / 3; i++) {
-			tri[i].v1 = tempVertices[*vertexIndices[i*3]];
-			tri[i].v2 = tempVertices[*vertexIndices[(i*3)+1]];
-			tri[i].v3 = tempVertices[*vertexIndices[(i*3)+2]];
+		Triangle* tri = new Triangle[(vertexIndices.size() / 3)];
+		for (int i = 0; i < vertexIndices.size() / 3; i++) {
+			tri[i].v1 = tempVertices[*vertexIndices[i*3]-1];
+			tri[i].v2 = tempVertices[*vertexIndices[(i*3)+1]-1];
+			tri[i].v3 = tempVertices[*vertexIndices[(i*3)+2]-1];
 		}
 
 		TexturedMesh* returnMesh = new TexturedMesh();

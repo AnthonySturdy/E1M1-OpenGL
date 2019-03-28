@@ -73,22 +73,24 @@ void HelloGL::InitObjects() {
 	Texture2D* bananaTexture = new Texture2D();
 	bananaTexture->LoadFromData(BMPLoader::LoadBitMap("Assets/Textures/Banana.bmp"), 400, 400);
 	TexturedMesh* levelMesh = MeshLoader::LoadOBJ("Assets/Models/E1M1_Edited.obj", bananaTexture);
-	SceneObject* object = new MeshObject(levelMesh, Vector3(0, 10.0f, 0));
+	SceneObject* object = new MeshObject(levelMesh, Vector3(0, 0, 0));
 	objects.push_back(object);
 
 	Texture2D* spaceTexture = new Texture2D();
 	spaceTexture->LoadFromData(BMPLoader::LoadBitMap("Assets/Textures/SPACE.bmp"), 256, 256);
 	navigationMesh = MeshLoader::LoadOBJ("Assets/Models/E1M1_Navigation.obj", spaceTexture);
-	SceneObject* navigationObject = new MeshObject(navigationMesh, Vector3(0, 10.01f, 0));
+	SceneObject* navigationObject = new MeshObject(navigationMesh, Vector3(0, 0.01f, 0));
 	objects.push_back(navigationObject);
 }
 
 void HelloGL::Display() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	for (int i = 0; i < 2; i++) {
+	for (int i = 0; i < 1; i++) {
 		objects[i]->Draw();
 	}
+
+	//DebugNavigationMesh();
 
 	glFlush();
 	glutSwapBuffers();
@@ -102,9 +104,10 @@ void HelloGL::Update() {
 
 	glutPostRedisplay();
 
-	for (int i = 0; i < 2; i++) {
+	for (int i = 0; i < 1; i++) {
 		objects[i]->Update();
 	}
+
 
 	glLightfv(GL_LIGHT0, GL_AMBIENT, &(lightData->ambient.x));
 	glLightfv(GL_LIGHT0, GL_POSITION, &(lightPosition->x));
@@ -169,7 +172,7 @@ void HelloGL::CameraLook() {
 
 	float groundHeight = GetGroundHeightAtPoint(camera->eye, navigationMesh);
 	std::cout << "CameraPos: (" << camera->eye.x << ", " << camera->eye.y << ", " << camera->eye.z << ")" << std::endl;
-	std::cout << "GroundHeight: " << groundHeight << std::endl << std::endl;
+	std::cout << "GroundHeight: " << groundHeight << std::endl << std::endl << std::endl;
 
 	//https://community.khronos.org/t/about-glulookat-function-and-how-to-rotate-the-camera/67868/2
 	glRotatef(yAngle, 1.0f, 0.0f, 0.0f);
@@ -177,6 +180,38 @@ void HelloGL::CameraLook() {
 	glTranslatef(-camera->eye.x, -(camera->eye.y + PLAYER_HEIGHT + groundHeight), -camera->eye.z);
 
 	SetCursorPos(1920 - (SCREEN_WIDTH / 2), SCREEN_HEIGHT / 2);
+}
+
+void HelloGL::DebugNavigationMesh() {
+	glBindTexture(GL_TEXTURE_2D, 0);	//Bind the texture to the ID
+	Triangle* t = nullptr;
+	for (int i = 0; i < navigationMesh->indexCount / 3; i++) {
+		if (IsPointInsideTriangle(camera->eye, navigationMesh->tris[i])) {
+			t = &navigationMesh->tris[i];
+		}
+
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+		glDisable(GL_DEPTH_TEST);
+		glBegin(GL_TRIANGLES);
+		glVertex3f(navigationMesh->tris[i].v1->x, navigationMesh->tris[i].v1->y, navigationMesh->tris[i].v1->z);
+		glVertex3f(navigationMesh->tris[i].v2->x, navigationMesh->tris[i].v2->y, navigationMesh->tris[i].v2->z);
+		glVertex3f(navigationMesh->tris[i].v3->x, navigationMesh->tris[i].v3->y, navigationMesh->tris[i].v3->z);
+		glEnd();
+		glEnable(GL_DEPTH_TEST);
+
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
+
+	if (t != nullptr) {
+		glDisable(GL_DEPTH_TEST);
+		glBegin(GL_TRIANGLES);
+		glVertex3f(t->v1->x, t->v1->y, t->v1->z);
+		glVertex3f(t->v2->x, t->v2->y, t->v2->z);
+		glVertex3f(t->v3->x, t->v3->y, t->v3->z);
+		glEnd();
+		glEnable(GL_DEPTH_TEST);
+	}
 }
 
 void HelloGL::Movement() {
@@ -223,28 +258,31 @@ float HelloGL::GetTriangleHeight(Triangle tri) {
 	}
 }
 
-//Solution found here: https://stackoverflow.com/questions/2049582/how-to-determine-if-a-point-is-in-a-2d-triangle. Used answer by user "John Bananas".
+float sign(Vector3 p1, Vertex* p2, Vertex* p3) {
+	return (p1.x - p3->x) * (p2->z - p3->z) - (p2->x - p3->x) * (p1.z - p3->z);
+}
+
+//Solution found here: https://stackoverflow.com/questions/2049582/how-to-determine-if-a-point-is-in-a-2d-triangle
 bool HelloGL::IsPointInsideTriangle(Vector3 point, Triangle tri) {
-	int x = (point.x);
-	int z = (point.z);
+	float d1, d2, d3;
+	bool has_neg, has_pos;
 
-	bool s_ab = (tri.v2->x - tri.v1->x) * z - (tri.v2->z - tri.v1->z) * x > 0;
+	d1 = sign(point, tri.v1, tri.v2);
+	d2 = sign(point, tri.v2, tri.v3);
+	d3 = sign(point, tri.v3, tri.v1);
 
-	if (((tri.v3->x - tri.v1->x) * z - (tri.v3->z - tri.v1->z) * x > 0) == s_ab)
-		return false;
+	has_neg = (d1 < 0) || (d2 < 0) || (d3 < 0);
+	has_pos = (d1 > 0) || (d2 > 0) || (d3 > 0);
 
-	if (((tri.v3->x - tri.v2->x)*(point.z - tri.v2->z) - (tri.v3->z - tri.v2->z)*(point.x - tri.v2->x) > 0) != s_ab)
-		return false;
-
-	return true;
+	return !(has_neg && has_pos);
 }
 
 float HelloGL::GetGroundHeightAtPoint(Vector3 point, TexturedMesh* mesh) {
-	for (int i = 0; i < mesh->vertexCount / 3; i++) {
+	for (int i = 0; i < mesh->indexCount / 3; i++) {
 		if (IsPointInsideTriangle(point, mesh->tris[i])) {
-			std::cout << "CurTri v1: " << mesh->tris[i].v1->x << ", " << mesh->tris[i].v1->z << std::endl;
-			std::cout << "CurTri v2: " << mesh->tris[i].v2->x << ", " << mesh->tris[i].v2->z << std::endl;
-			std::cout << "CurTri v3: " << mesh->tris[i].v3->x << ", " << mesh->tris[i].v3->z << std::endl;
+			std::cout << "CurTri v1: x: " << mesh->tris[i].v1->x << ", z: " << mesh->tris[i].v1->z << std::endl;
+			std::cout << "CurTri v2: x: " << mesh->tris[i].v2->x << ", z: " << mesh->tris[i].v2->z << std::endl;
+			std::cout << "CurTri v3: x: " << mesh->tris[i].v3->x << ", z: " << mesh->tris[i].v3->z << std::endl;
 			return GetTriangleHeight(mesh->tris[i]);
 		}
 	}

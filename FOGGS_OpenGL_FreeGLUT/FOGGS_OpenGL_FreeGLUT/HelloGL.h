@@ -21,8 +21,8 @@
 #define REFRESHRATE 16
 
 #define MOUSE_SENSITIVITY 0.1
-#define PLAYER_WALK_SPEED 0.2
-#define PLAYER_HEIGHT 20
+#define PLAYER_WALK_SPEED 0.3
+#define PLAYER_HEIGHT 4.5
 
 
 class HelloGL {
@@ -46,6 +46,7 @@ private:
 
 	std::vector<SceneObject*> objects;
 	TexturedMesh* navigationMesh;
+	void DebugNavigationMesh();
 
 	void Movement();
 	bool isMovingForward, isMovingBackward, isMovingLeft, isMovingRight;
