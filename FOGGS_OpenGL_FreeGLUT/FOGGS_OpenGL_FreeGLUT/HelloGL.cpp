@@ -39,7 +39,7 @@ void HelloGL::InitGL(int argc, char* argv[]) {
 	glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 
 	//FOV, Aspect Ratio, Near Clipping, Far Clipping
-	gluPerspective(90, float(SCREEN_WIDTH) / float(SCREEN_HEIGHT), 0.1, 1000);
+	gluPerspective(90, float(SCREEN_WIDTH) / float(SCREEN_HEIGHT), 0.01, 1000);
 
 	//Go back to Model view
 	glMatrixMode(GL_MODELVIEW);
@@ -99,8 +99,8 @@ void HelloGL::Display() {
 void HelloGL::Update() {
 	glLoadIdentity();	//Reset matrix
 
-	CameraLook();
 	Movement();
+	CameraLook();
 
 	glutPostRedisplay();
 
@@ -171,13 +171,13 @@ void HelloGL::CameraLook() {
 	yAngle += (mousePos.y - (SCREEN_HEIGHT / 2)) * MOUSE_SENSITIVITY;
 
 	float groundHeight = GetGroundHeightAtPoint(camera->eye, navigationMesh);
-	std::cout << "CameraPos: (" << camera->eye.x << ", " << camera->eye.y << ", " << camera->eye.z << ")" << std::endl;
-	std::cout << "GroundHeight: " << groundHeight << std::endl << std::endl << std::endl;
 
 	//https://community.khronos.org/t/about-glulookat-function-and-how-to-rotate-the-camera/67868/2
 	glRotatef(yAngle, 1.0f, 0.0f, 0.0f);
 	glRotatef(xAngle, 0.0f, 1.0f, 0.0f);
 	glTranslatef(-camera->eye.x, -(camera->eye.y + PLAYER_HEIGHT + groundHeight), -camera->eye.z);
+
+	prevGroundHeight = groundHeight;
 
 	SetCursorPos(1920 - (SCREEN_WIDTH / 2), SCREEN_HEIGHT / 2);
 }
@@ -218,31 +218,82 @@ void HelloGL::Movement() {
 	if (isMovingForward) {
 		//Convert current player rotation to radians, then vector. Add to position.
 		camera->centre.x += cos((xAngle - 90) * 3.141f / 180.0f) * PLAYER_WALK_SPEED;
-		camera->centre.z += sin((xAngle - 90) * 3.141f / 180.0) * PLAYER_WALK_SPEED;
+		camera->centre.z += sin((xAngle - 90) * 3.141f / 180.0f) * PLAYER_WALK_SPEED;
 		camera->eye.x += cos((xAngle - 90) * 3.141f / 180.0) * PLAYER_WALK_SPEED;
 		camera->eye.z += sin((xAngle - 90) * 3.141f / 180.0) * PLAYER_WALK_SPEED;
+
+		//Check if player goes out of bounds, if they do, reset position back (Wall collision)
+		if (!CanPlayerMove()) {
+			camera->centre.x -= cos((xAngle - 90) * 3.141f / 180.0f) * PLAYER_WALK_SPEED;
+			camera->centre.z -= sin((xAngle - 90) * 3.141f / 180.0f) * PLAYER_WALK_SPEED;
+			camera->eye.x -= cos((xAngle - 90) * 3.141f / 180.0) * PLAYER_WALK_SPEED;
+			camera->eye.z -= sin((xAngle - 90) * 3.141f / 180.0) * PLAYER_WALK_SPEED;
+		}
 	}
 	if (isMovingBackward) {
 		//Convert current player rotation to radians, then vector. Subtract from position.
 		camera->centre.x -= cos((xAngle - 90) * 3.141f / 180.0f) * PLAYER_WALK_SPEED;
-		camera->centre.z -= sin((xAngle - 90) * 3.141f / 180.0) * PLAYER_WALK_SPEED;
+		camera->centre.z -= sin((xAngle - 90) * 3.141f / 180.0f) * PLAYER_WALK_SPEED;
 		camera->eye.x -= cos((xAngle - 90) * 3.141f / 180.0) * PLAYER_WALK_SPEED;
 		camera->eye.z -= sin((xAngle - 90) * 3.141f / 180.0) * PLAYER_WALK_SPEED;
+
+		//Check if player goes out of bounds, if they do, reset position back (Wall collision)
+		if (!CanPlayerMove()) {
+			camera->centre.x += cos((xAngle - 90) * 3.141f / 180.0f) * PLAYER_WALK_SPEED;
+			camera->centre.z += sin((xAngle - 90) * 3.141f / 180.0f) * PLAYER_WALK_SPEED;
+			camera->eye.x += cos((xAngle - 90) * 3.141f / 180.0) * PLAYER_WALK_SPEED;
+			camera->eye.z += sin((xAngle - 90) * 3.141f / 180.0) * PLAYER_WALK_SPEED;
+		}
 	}
 	if (isMovingRight) {
 		//Convert current player rotation to radians, then vector. Add to position.
 		camera->centre.x += cos(xAngle * 3.141f / 180.0f) * PLAYER_WALK_SPEED;
-		camera->centre.z += sin(xAngle * 3.141f / 180.0) * PLAYER_WALK_SPEED;
+		camera->centre.z += sin(xAngle * 3.141f / 180.0f) * PLAYER_WALK_SPEED;
 		camera->eye.x += cos(xAngle * 3.141f / 180.0) * PLAYER_WALK_SPEED;
 		camera->eye.z += sin(xAngle * 3.141f / 180.0) * PLAYER_WALK_SPEED;
+
+		//Check if player goes out of bounds, if they do, reset position back (Wall collision)
+		if (!CanPlayerMove()) {
+			camera->centre.x -= cos(xAngle * 3.141f / 180.0f) * PLAYER_WALK_SPEED;
+			camera->centre.z -= sin(xAngle * 3.141f / 180.0f) * PLAYER_WALK_SPEED;
+			camera->eye.x -= cos(xAngle * 3.141f / 180.0) * PLAYER_WALK_SPEED;
+			camera->eye.z -= sin(xAngle * 3.141f / 180.0) * PLAYER_WALK_SPEED;
+		}
 	}
 	if (isMovingLeft) {
 		//Convert current player rotation to radians, then vector. Subtract from position.
 		camera->centre.x -= cos(xAngle * 3.141f / 180.0f) * PLAYER_WALK_SPEED;
-		camera->centre.z -= sin(xAngle * 3.141f / 180.0) * PLAYER_WALK_SPEED;
+		camera->centre.z -= sin(xAngle * 3.141f / 180.0f) * PLAYER_WALK_SPEED;
 		camera->eye.x -= cos(xAngle * 3.141f / 180.0) * PLAYER_WALK_SPEED;
 		camera->eye.z -= sin(xAngle * 3.141f / 180.0) * PLAYER_WALK_SPEED;
+
+		//Check if player goes out of bounds, if they do, reset position back (Wall collision)
+		if (!CanPlayerMove()) {
+			camera->centre.x += cos(xAngle * 3.141f / 180.0f) * PLAYER_WALK_SPEED;
+			camera->centre.z += sin(xAngle * 3.141f / 180.0f) * PLAYER_WALK_SPEED;
+			camera->eye.x += cos(xAngle * 3.141f / 180.0) * PLAYER_WALK_SPEED;
+			camera->eye.z += sin(xAngle * 3.141f / 180.0) * PLAYER_WALK_SPEED;
+		}
 	}
+}
+
+bool HelloGL::CanPlayerMove() {
+	bool cancelMovement = true;
+
+	for (int i = 0; i < navigationMesh->indexCount / 3; i++) {
+		if (IsPointInsideTriangle(camera->eye, navigationMesh->tris[i])) {
+			cancelMovement = false;
+			break;
+		} else {
+			cancelMovement = true;
+		}
+	}
+
+	if ((GetGroundHeightAtPoint(camera->eye, navigationMesh) - prevGroundHeight) > PLAYER_MAX_STEP_HEIGHT) {
+		cancelMovement = true;
+	}
+
+	return !cancelMovement;
 }
 
 float HelloGL::GetTriangleHeight(Triangle tri) {
@@ -280,12 +331,8 @@ bool HelloGL::IsPointInsideTriangle(Vector3 point, Triangle tri) {
 float HelloGL::GetGroundHeightAtPoint(Vector3 point, TexturedMesh* mesh) {
 	for (int i = 0; i < mesh->indexCount / 3; i++) {
 		if (IsPointInsideTriangle(point, mesh->tris[i])) {
-			std::cout << "CurTri v1: x: " << mesh->tris[i].v1->x << ", z: " << mesh->tris[i].v1->z << std::endl;
-			std::cout << "CurTri v2: x: " << mesh->tris[i].v2->x << ", z: " << mesh->tris[i].v2->z << std::endl;
-			std::cout << "CurTri v3: x: " << mesh->tris[i].v3->x << ", z: " << mesh->tris[i].v3->z << std::endl;
 			return GetTriangleHeight(mesh->tris[i]);
 		}
 	}
-
 	return 0.0f;
 }

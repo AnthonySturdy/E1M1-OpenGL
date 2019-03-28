@@ -23,6 +23,7 @@
 #define MOUSE_SENSITIVITY 0.1
 #define PLAYER_WALK_SPEED 0.3
 #define PLAYER_HEIGHT 4.5
+#define PLAYER_MAX_STEP_HEIGHT 2
 
 
 class HelloGL {
@@ -44,12 +45,14 @@ private:
 	float yAngle = 0;
 	void CameraLook();
 
+	void Movement();
+	bool isMovingForward, isMovingBackward, isMovingLeft, isMovingRight;
+	bool CanPlayerMove();
+	float prevGroundHeight = 0;
+
 	std::vector<SceneObject*> objects;
 	TexturedMesh* navigationMesh;
 	void DebugNavigationMesh();
-
-	void Movement();
-	bool isMovingForward, isMovingBackward, isMovingLeft, isMovingRight;
 
 	float GetTriangleHeight(Triangle tri);	//Only used for navigation mesh!
 	bool IsPointInsideTriangle(Vector3 s, Triangle tri); //This is 2D not 3D
