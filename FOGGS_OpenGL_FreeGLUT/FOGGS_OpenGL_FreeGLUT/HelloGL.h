@@ -15,14 +15,14 @@
 #include"BMPLoader.h"
 #include"LinkedList.h"
 
-#define SCREEN_WIDTH 1920
-#define SCREEN_HEIGHT 1080
+#define SCREEN_WIDTH 1280
+#define SCREEN_HEIGHT 720
 
 #define REFRESHRATE 16
 
 #define MOUSE_SENSITIVITY 0.1
 #define PLAYER_WALK_SPEED 0.2
-#define PLAYER_HEIGHT 8
+#define PLAYER_HEIGHT 20
 
 
 class HelloGL {
@@ -51,7 +51,7 @@ private:
 	bool isMovingForward, isMovingBackward, isMovingLeft, isMovingRight;
 
 	float GetTriangleHeight(Triangle tri);	//Only used for navigation mesh!
-	bool IsPointInsideTriangle(Vector3 point, Triangle tri); //This is 2D not 3D
+	bool IsPointInsideTriangle(Vector3 s, Triangle tri); //This is 2D not 3D
 	float GetGroundHeightAtPoint(Vector3 point, TexturedMesh* mesh);
 
 	Vector4* lightPosition;

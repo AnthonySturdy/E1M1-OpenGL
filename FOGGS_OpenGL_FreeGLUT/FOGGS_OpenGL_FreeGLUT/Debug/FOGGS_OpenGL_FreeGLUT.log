@@ -1,22 +1,22 @@
 ﻿  HelloGL.cpp
-c:\users\anthony sturdy\documents\github\foggs_freeglut_anthonysturdy\foggs_opengl_freeglut\foggs_opengl_freeglut\hellogl.cpp(165): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
-c:\users\anthony sturdy\documents\github\foggs_freeglut_anthonysturdy\foggs_opengl_freeglut\foggs_opengl_freeglut\hellogl.cpp(166): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
-c:\users\anthony sturdy\documents\github\foggs_freeglut_anthonysturdy\foggs_opengl_freeglut\foggs_opengl_freeglut\hellogl.cpp(183): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
-c:\users\anthony sturdy\documents\github\foggs_freeglut_anthonysturdy\foggs_opengl_freeglut\foggs_opengl_freeglut\hellogl.cpp(184): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
-c:\users\anthony sturdy\documents\github\foggs_freeglut_anthonysturdy\foggs_opengl_freeglut\foggs_opengl_freeglut\hellogl.cpp(185): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
-c:\users\anthony sturdy\documents\github\foggs_freeglut_anthonysturdy\foggs_opengl_freeglut\foggs_opengl_freeglut\hellogl.cpp(186): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
-c:\users\anthony sturdy\documents\github\foggs_freeglut_anthonysturdy\foggs_opengl_freeglut\foggs_opengl_freeglut\hellogl.cpp(190): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
-c:\users\anthony sturdy\documents\github\foggs_freeglut_anthonysturdy\foggs_opengl_freeglut\foggs_opengl_freeglut\hellogl.cpp(191): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
-c:\users\anthony sturdy\documents\github\foggs_freeglut_anthonysturdy\foggs_opengl_freeglut\foggs_opengl_freeglut\hellogl.cpp(192): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
-c:\users\anthony sturdy\documents\github\foggs_freeglut_anthonysturdy\foggs_opengl_freeglut\foggs_opengl_freeglut\hellogl.cpp(193): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
-c:\users\anthony sturdy\documents\github\foggs_freeglut_anthonysturdy\foggs_opengl_freeglut\foggs_opengl_freeglut\hellogl.cpp(197): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
-c:\users\anthony sturdy\documents\github\foggs_freeglut_anthonysturdy\foggs_opengl_freeglut\foggs_opengl_freeglut\hellogl.cpp(198): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
-c:\users\anthony sturdy\documents\github\foggs_freeglut_anthonysturdy\foggs_opengl_freeglut\foggs_opengl_freeglut\hellogl.cpp(199): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
-c:\users\anthony sturdy\documents\github\foggs_freeglut_anthonysturdy\foggs_opengl_freeglut\foggs_opengl_freeglut\hellogl.cpp(200): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
-c:\users\anthony sturdy\documents\github\foggs_freeglut_anthonysturdy\foggs_opengl_freeglut\foggs_opengl_freeglut\hellogl.cpp(204): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
-c:\users\anthony sturdy\documents\github\foggs_freeglut_anthonysturdy\foggs_opengl_freeglut\foggs_opengl_freeglut\hellogl.cpp(205): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
-c:\users\anthony sturdy\documents\github\foggs_freeglut_anthonysturdy\foggs_opengl_freeglut\foggs_opengl_freeglut\hellogl.cpp(206): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
-c:\users\anthony sturdy\documents\github\foggs_freeglut_anthonysturdy\foggs_opengl_freeglut\foggs_opengl_freeglut\hellogl.cpp(207): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
-c:\users\anthony sturdy\documents\github\foggs_freeglut_anthonysturdy\foggs_opengl_freeglut\foggs_opengl_freeglut\hellogl.cpp(226): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-c:\users\anthony sturdy\documents\github\foggs_freeglut_anthonysturdy\foggs_opengl_freeglut\foggs_opengl_freeglut\hellogl.cpp(227): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-  FOGGS_OpenGL_FreeGLUT.vcxproj -> C:\Users\Anthony Sturdy\Documents\GitHub\FOGGS_FreeGLUT_AnthonySturdy\FOGGS_OpenGL_FreeGLUT\Debug\FOGGS_OpenGL_FreeGLUT.exe
+c:\users\antho\documents\github\foggs_freeglut_anthonysturdy\foggs_opengl_freeglut\foggs_opengl_freeglut\hellogl.cpp(167): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+c:\users\antho\documents\github\foggs_freeglut_anthonysturdy\foggs_opengl_freeglut\foggs_opengl_freeglut\hellogl.cpp(168): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+c:\users\antho\documents\github\foggs_freeglut_anthonysturdy\foggs_opengl_freeglut\foggs_opengl_freeglut\hellogl.cpp(185): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+c:\users\antho\documents\github\foggs_freeglut_anthonysturdy\foggs_opengl_freeglut\foggs_opengl_freeglut\hellogl.cpp(186): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+c:\users\antho\documents\github\foggs_freeglut_anthonysturdy\foggs_opengl_freeglut\foggs_opengl_freeglut\hellogl.cpp(187): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+c:\users\antho\documents\github\foggs_freeglut_anthonysturdy\foggs_opengl_freeglut\foggs_opengl_freeglut\hellogl.cpp(188): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+c:\users\antho\documents\github\foggs_freeglut_anthonysturdy\foggs_opengl_freeglut\foggs_opengl_freeglut\hellogl.cpp(192): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
+c:\users\antho\documents\github\foggs_freeglut_anthonysturdy\foggs_opengl_freeglut\foggs_opengl_freeglut\hellogl.cpp(193): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
+c:\users\antho\documents\github\foggs_freeglut_anthonysturdy\foggs_opengl_freeglut\foggs_opengl_freeglut\hellogl.cpp(194): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
+c:\users\antho\documents\github\foggs_freeglut_anthonysturdy\foggs_opengl_freeglut\foggs_opengl_freeglut\hellogl.cpp(195): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
+c:\users\antho\documents\github\foggs_freeglut_anthonysturdy\foggs_opengl_freeglut\foggs_opengl_freeglut\hellogl.cpp(199): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+c:\users\antho\documents\github\foggs_freeglut_anthonysturdy\foggs_opengl_freeglut\foggs_opengl_freeglut\hellogl.cpp(200): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+c:\users\antho\documents\github\foggs_freeglut_anthonysturdy\foggs_opengl_freeglut\foggs_opengl_freeglut\hellogl.cpp(201): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+c:\users\antho\documents\github\foggs_freeglut_anthonysturdy\foggs_opengl_freeglut\foggs_opengl_freeglut\hellogl.cpp(202): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+c:\users\antho\documents\github\foggs_freeglut_anthonysturdy\foggs_opengl_freeglut\foggs_opengl_freeglut\hellogl.cpp(206): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
+c:\users\antho\documents\github\foggs_freeglut_anthonysturdy\foggs_opengl_freeglut\foggs_opengl_freeglut\hellogl.cpp(207): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
+c:\users\antho\documents\github\foggs_freeglut_anthonysturdy\foggs_opengl_freeglut\foggs_opengl_freeglut\hellogl.cpp(208): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
+c:\users\antho\documents\github\foggs_freeglut_anthonysturdy\foggs_opengl_freeglut\foggs_opengl_freeglut\hellogl.cpp(209): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
+c:\users\antho\documents\github\foggs_freeglut_anthonysturdy\foggs_opengl_freeglut\foggs_opengl_freeglut\hellogl.cpp(228): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+c:\users\antho\documents\github\foggs_freeglut_anthonysturdy\foggs_opengl_freeglut\foggs_opengl_freeglut\hellogl.cpp(229): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+  FOGGS_OpenGL_FreeGLUT.vcxproj -> C:\Users\antho\Documents\GitHub\FOGGS_FreeGLUT_AnthonySturdy\FOGGS_OpenGL_FreeGLUT\Debug\FOGGS_OpenGL_FreeGLUT.exe

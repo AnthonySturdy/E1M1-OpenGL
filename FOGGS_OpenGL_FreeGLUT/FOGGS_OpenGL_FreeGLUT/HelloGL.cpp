@@ -18,8 +18,10 @@ void HelloGL::InitGL(int argc, char* argv[]) {
 
 	//Create window
 	glutInitWindowSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+	glutInitWindowPosition(1920-1280, 0);
 	glutCreateWindow("Simple OpenGL Program");
-	glutFullScreen();
+	//glutFullScreen();
+
 	
 	//Enable Depth (So far objects don't draw in front of near)
 	glEnable(GL_DEPTH_TEST);
@@ -64,20 +66,20 @@ void HelloGL::InitObjects() {
 	lightData = new Lighting(Vector4(0.2f, 0.2f, 0.2f, 1.0f), Vector4(0.8f, 0.8f, 0.8f, 1.0f), Vector4(0.2f, 0.2f, 0.2f, 1.0f));
 
 	camera = new Camera();
-	camera->eye = Vector3(0, -5, 0);
+	camera->eye = Vector3(0, 0, 0);
 	camera->centre = Vector3(0.0f, 0.0f, 0.0f);
 	camera->up = Vector3(0.0f, 1.0f, 0.0f);
 
 	Texture2D* bananaTexture = new Texture2D();
 	bananaTexture->LoadFromData(BMPLoader::LoadBitMap("Assets/Textures/Banana.bmp"), 400, 400);
 	TexturedMesh* levelMesh = MeshLoader::LoadOBJ("Assets/Models/E1M1_Edited.obj", bananaTexture);
-	SceneObject* object = new MeshObject(levelMesh, Vector3(0, 0, 0));
+	SceneObject* object = new MeshObject(levelMesh, Vector3(0, 10.0f, 0));
 	objects.push_back(object);
 
 	Texture2D* spaceTexture = new Texture2D();
 	spaceTexture->LoadFromData(BMPLoader::LoadBitMap("Assets/Textures/SPACE.bmp"), 256, 256);
 	navigationMesh = MeshLoader::LoadOBJ("Assets/Models/E1M1_Navigation.obj", spaceTexture);
-	SceneObject* navigationObject = new MeshObject(navigationMesh, Vector3(0, 0.1f, 0));
+	SceneObject* navigationObject = new MeshObject(navigationMesh, Vector3(0, 10.01f, 0));
 	objects.push_back(navigationObject);
 }
 
@@ -162,7 +164,7 @@ void HelloGL::CameraLook() {
 	} else if (yAngle < -90) {
 		yAngle = -90;
 	}
-	xAngle += (mousePos.x - (SCREEN_WIDTH / 2)) * MOUSE_SENSITIVITY;
+	xAngle += (mousePos.x - (1920 - (SCREEN_WIDTH / 2))) * MOUSE_SENSITIVITY;
 	yAngle += (mousePos.y - (SCREEN_HEIGHT / 2)) * MOUSE_SENSITIVITY;
 
 	float groundHeight = GetGroundHeightAtPoint(camera->eye, navigationMesh);
@@ -174,7 +176,7 @@ void HelloGL::CameraLook() {
 	glRotatef(xAngle, 0.0f, 1.0f, 0.0f);
 	glTranslatef(-camera->eye.x, -(camera->eye.y + PLAYER_HEIGHT + groundHeight), -camera->eye.z);
 
-	SetCursorPos(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+	SetCursorPos(1920 - (SCREEN_WIDTH / 2), SCREEN_HEIGHT / 2);
 }
 
 void HelloGL::Movement() {
@@ -213,7 +215,7 @@ float HelloGL::GetTriangleHeight(Triangle tri) {
 	//so this ensures the anomaly vertex isn't used.
 
 	if (tri.v1->y == tri.v2->y) {
-		//If v1 and v2 are the same, neither of them are the anomoly. 
+		//If v1 and v2 are the same, neither of them are the anomaly. 
 		return tri.v1->y;
 	} else {
 		//Otherwise, we know v3 isn't the anomaly.
@@ -223,8 +225,8 @@ float HelloGL::GetTriangleHeight(Triangle tri) {
 
 //Solution found here: https://stackoverflow.com/questions/2049582/how-to-determine-if-a-point-is-in-a-2d-triangle. Used answer by user "John Bananas".
 bool HelloGL::IsPointInsideTriangle(Vector3 point, Triangle tri) {
-	int x = point.x - tri.v1->x;
-	int z = point.z - tri.v1->z;
+	int x = (point.x);
+	int z = (point.z);
 
 	bool s_ab = (tri.v2->x - tri.v1->x) * z - (tri.v2->z - tri.v1->z) * x > 0;
 
