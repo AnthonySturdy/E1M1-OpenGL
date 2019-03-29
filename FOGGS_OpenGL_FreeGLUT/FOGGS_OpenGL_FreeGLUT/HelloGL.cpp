@@ -49,8 +49,8 @@ void HelloGL::InitGL(int argc, char* argv[]) {
 	glCullFace(GL_BACK);
 
 	//Enable texturing
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glEnable(GL_TEXTURE_2D);
 
 	//Enable lighting
@@ -79,8 +79,12 @@ void HelloGL::InitObjects() {
 	Texture2D* spaceTexture = new Texture2D();
 	spaceTexture->LoadFromData(BMPLoader::LoadBitMap("Assets/Textures/SPACE.bmp"), 256, 256);
 	navigationMesh = MeshLoader::LoadOBJ("Assets/Models/E1M1_Navigation.obj", spaceTexture);
-	SceneObject* navigationObject = new MeshObject(navigationMesh, Vector3(0, 0.01f, 0));
-	objects.push_back(navigationObject);
+
+	Texture2D* cubemapTexture = new Texture2D();
+	cubemapTexture->LoadFromData(BMPLoader::LoadBitMap("Assets/Textures/skybox.bmp"), 1024, 1024);
+	TexturedMesh* skyboxMesh = MeshLoader::LoadOBJ("Assets/Models/Skybox.obj", cubemapTexture);
+	SceneObject* cubemapObject = new MeshObject(skyboxMesh, Vector3(0, 0, 0));
+	objects.push_back(cubemapObject);
 }
 
 void HelloGL::Display() {
@@ -89,6 +93,11 @@ void HelloGL::Display() {
 	for (int i = 0; i < 1; i++) {
 		objects[i]->Draw();
 	}
+
+	glPushMatrix();
+	glTranslatef(camera->eye.x, (camera->eye.y + PLAYER_HEIGHT + GetGroundHeightAtPoint(camera->eye, navigationMesh)), camera->eye.z);
+	objects[1]->Draw();
+	glPopMatrix();
 
 	//DebugNavigationMesh();
 
@@ -104,7 +113,7 @@ void HelloGL::Update() {
 
 	glutPostRedisplay();
 
-	for (int i = 0; i < 1; i++) {
+	for (int i = 0; i < 2; i++) {
 		objects[i]->Update();
 	}
 
