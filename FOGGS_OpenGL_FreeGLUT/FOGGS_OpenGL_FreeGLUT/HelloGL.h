@@ -15,15 +15,15 @@
 #include"BMPLoader.h"
 #include"LinkedList.h"
 
-#define SCREEN_WIDTH 1280
-#define SCREEN_HEIGHT 720
+#define SCREEN_WIDTH 1920
+#define SCREEN_HEIGHT 1080
 
 #define REFRESHRATE 16
 
-#define MOUSE_SENSITIVITY 0.1
-#define PLAYER_WALK_SPEED 0.3
+#define MOUSE_SENSITIVITY 3
+#define PLAYER_WALK_SPEED 16
 #define PLAYER_HEIGHT 4.5
-#define PLAYER_MAX_STEP_HEIGHT 2
+#define PLAYER_MAX_STEP_HEIGHT 2.5
 
 
 class HelloGL {
@@ -40,6 +40,9 @@ public:
 	void KeyboardUp(unsigned char key, int x, int y);
 
 private:
+	float prevElapsedTime = 0;
+	float deltaTime;
+
 	Camera* camera;
 	float xAngle = 0;
 	float yAngle = 0;

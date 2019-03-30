@@ -18,9 +18,8 @@ void HelloGL::InitGL(int argc, char* argv[]) {
 
 	//Create window
 	glutInitWindowSize(SCREEN_WIDTH, SCREEN_HEIGHT);
-	glutInitWindowPosition(1920-1280, 0);
 	glutCreateWindow("Simple OpenGL Program");
-	//glutFullScreen();
+	glutFullScreen();
 
 	
 	//Enable Depth (So far objects don't draw in front of near)
@@ -71,14 +70,12 @@ void HelloGL::InitObjects() {
 	camera->up = Vector3(0.0f, 1.0f, 0.0f);
 
 	Texture2D* bananaTexture = new Texture2D();
-	bananaTexture->LoadFromData(BMPLoader::LoadBitMap("Assets/Textures/Banana.bmp"), 400, 400);
-	TexturedMesh* levelMesh = MeshLoader::LoadOBJ("Assets/Models/E1M1_Edited.obj", bananaTexture);
+	bananaTexture->LoadFromData(BMPLoader::LoadBitMap("Assets/Textures/E1M1_Texture.bmp"), 2048, 2048);
+	TexturedMesh* levelMesh = MeshLoader::LoadOBJ("Assets/Models/E1M1_Textured.obj", bananaTexture);
 	SceneObject* object = new MeshObject(levelMesh, Vector3(0, 0, 0));
 	objects.push_back(object);
 
-	Texture2D* spaceTexture = new Texture2D();
-	spaceTexture->LoadFromData(BMPLoader::LoadBitMap("Assets/Textures/SPACE.bmp"), 256, 256);
-	navigationMesh = MeshLoader::LoadOBJ("Assets/Models/E1M1_Navigation.obj", spaceTexture);
+	navigationMesh = MeshLoader::LoadOBJ("Assets/Models/E1M1_Navigation.obj", bananaTexture);
 
 	Texture2D* cubemapTexture = new Texture2D();
 	cubemapTexture->LoadFromData(BMPLoader::LoadBitMap("Assets/Textures/skybox.bmp"), 1024, 1024);
@@ -106,6 +103,9 @@ void HelloGL::Display() {
 }
 
 void HelloGL::Update() {
+	deltaTime = (glutGet(GLUT_ELAPSED_TIME) / 1000.0f) - prevElapsedTime;
+	prevElapsedTime = (glutGet(GLUT_ELAPSED_TIME) / 1000.0f);
+
 	glLoadIdentity();	//Reset matrix
 
 	Movement();
@@ -117,44 +117,47 @@ void HelloGL::Update() {
 		objects[i]->Update();
 	}
 
-
 	glLightfv(GL_LIGHT0, GL_AMBIENT, &(lightData->ambient.x));
 	glLightfv(GL_LIGHT0, GL_POSITION, &(lightPosition->x));
 }
 
 void HelloGL::KeyboardDown(unsigned char key, int x, int y) {
-	if (key == 'w') {
+	unsigned char k = tolower(key);	//Fix problem where input is different when caps lock on
+
+	if (k == 'w') {
 		//Convert current player rotation to radians, then vector. Add to position.
 		isMovingForward = true;
 	} 
-	if (key == 's') {
+	if (k == 's') {
 		//Convert current player rotation to radians, then vector. Subtract from position.
 		isMovingBackward = true;
 	} 
-	if (key == 'd') {
+	if (k == 'd') {
 		//Convert current player rotation to radians, then vector. Add to position.
 		isMovingRight = true;
 	} 
-	if (key == 'a') {
+	if (k == 'a') {
 		//Convert current player rotation to radians, then vector. Subtract from position.
 		isMovingLeft = true;
 	} 
 }
 
 void HelloGL::KeyboardUp(unsigned char key, int x, int y) {
-	if (key == 'w') {
+	unsigned char k = tolower(key);	//Fix problem where input is different when caps lock on
+
+	if (k == 'w') {
 		//Convert current player rotation to radians, then vector. Add to position.
 		isMovingForward = false;
 	}
-	if (key == 's') {
+	if (k == 's') {
 		//Convert current player rotation to radians, then vector. Subtract from position.
 		isMovingBackward = false;
 	}
-	if (key == 'd') {
+	if (k == 'd') {
 		//Convert current player rotation to radians, then vector. Add to position.
 		isMovingRight = false;
 	}
-	if (key == 'a') {
+	if (k == 'a') {
 		//Convert current player rotation to radians, then vector. Subtract from position.
 		isMovingLeft = false;
 	}
@@ -176,8 +179,8 @@ void HelloGL::CameraLook() {
 	} else if (yAngle < -90) {
 		yAngle = -90;
 	}
-	xAngle += (mousePos.x - (1920 - (SCREEN_WIDTH / 2))) * MOUSE_SENSITIVITY;
-	yAngle += (mousePos.y - (SCREEN_HEIGHT / 2)) * MOUSE_SENSITIVITY;
+	xAngle += (mousePos.x - (SCREEN_WIDTH / 2)) * MOUSE_SENSITIVITY * deltaTime;
+	yAngle += (mousePos.y - (SCREEN_HEIGHT / 2)) * MOUSE_SENSITIVITY * deltaTime;
 
 	float groundHeight = GetGroundHeightAtPoint(camera->eye, navigationMesh);
 
@@ -188,7 +191,7 @@ void HelloGL::CameraLook() {
 
 	prevGroundHeight = groundHeight;
 
-	SetCursorPos(1920 - (SCREEN_WIDTH / 2), SCREEN_HEIGHT / 2);
+	SetCursorPos(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
 }
 
 void HelloGL::DebugNavigationMesh() {
@@ -226,62 +229,62 @@ void HelloGL::DebugNavigationMesh() {
 void HelloGL::Movement() {
 	if (isMovingForward) {
 		//Convert current player rotation to radians, then vector. Add to position.
-		camera->centre.x += cos((xAngle - 90) * 3.141f / 180.0f) * PLAYER_WALK_SPEED;
-		camera->centre.z += sin((xAngle - 90) * 3.141f / 180.0f) * PLAYER_WALK_SPEED;
-		camera->eye.x += cos((xAngle - 90) * 3.141f / 180.0) * PLAYER_WALK_SPEED;
-		camera->eye.z += sin((xAngle - 90) * 3.141f / 180.0) * PLAYER_WALK_SPEED;
+		camera->centre.x += cos((xAngle - 90) * 3.141f / 180.0f) * PLAYER_WALK_SPEED * deltaTime;
+		camera->centre.z += sin((xAngle - 90) * 3.141f / 180.0f) * PLAYER_WALK_SPEED * deltaTime;
+		camera->eye.x += cos((xAngle - 90) * 3.141f / 180.0) * PLAYER_WALK_SPEED * deltaTime;
+		camera->eye.z += sin((xAngle - 90) * 3.141f / 180.0) * PLAYER_WALK_SPEED * deltaTime;
 
 		//Check if player goes out of bounds, if they do, reset position back (Wall collision)
 		if (!CanPlayerMove()) {
-			camera->centre.x -= cos((xAngle - 90) * 3.141f / 180.0f) * PLAYER_WALK_SPEED;
-			camera->centre.z -= sin((xAngle - 90) * 3.141f / 180.0f) * PLAYER_WALK_SPEED;
-			camera->eye.x -= cos((xAngle - 90) * 3.141f / 180.0) * PLAYER_WALK_SPEED;
-			camera->eye.z -= sin((xAngle - 90) * 3.141f / 180.0) * PLAYER_WALK_SPEED;
+			camera->centre.x -= cos((xAngle - 90) * 3.141f / 180.0f) * PLAYER_WALK_SPEED * deltaTime;
+			camera->centre.z -= sin((xAngle - 90) * 3.141f / 180.0f) * PLAYER_WALK_SPEED * deltaTime;
+			camera->eye.x -= cos((xAngle - 90) * 3.141f / 180.0) * PLAYER_WALK_SPEED * deltaTime;
+			camera->eye.z -= sin((xAngle - 90) * 3.141f / 180.0) * PLAYER_WALK_SPEED * deltaTime;
 		}
 	}
 	if (isMovingBackward) {
 		//Convert current player rotation to radians, then vector. Subtract from position.
-		camera->centre.x -= cos((xAngle - 90) * 3.141f / 180.0f) * PLAYER_WALK_SPEED;
-		camera->centre.z -= sin((xAngle - 90) * 3.141f / 180.0f) * PLAYER_WALK_SPEED;
-		camera->eye.x -= cos((xAngle - 90) * 3.141f / 180.0) * PLAYER_WALK_SPEED;
-		camera->eye.z -= sin((xAngle - 90) * 3.141f / 180.0) * PLAYER_WALK_SPEED;
+		camera->centre.x -= cos((xAngle - 90) * 3.141f / 180.0f) * PLAYER_WALK_SPEED * deltaTime;
+		camera->centre.z -= sin((xAngle - 90) * 3.141f / 180.0f) * PLAYER_WALK_SPEED * deltaTime;
+		camera->eye.x -= cos((xAngle - 90) * 3.141f / 180.0) * PLAYER_WALK_SPEED * deltaTime;
+		camera->eye.z -= sin((xAngle - 90) * 3.141f / 180.0) * PLAYER_WALK_SPEED * deltaTime;
 
 		//Check if player goes out of bounds, if they do, reset position back (Wall collision)
 		if (!CanPlayerMove()) {
-			camera->centre.x += cos((xAngle - 90) * 3.141f / 180.0f) * PLAYER_WALK_SPEED;
-			camera->centre.z += sin((xAngle - 90) * 3.141f / 180.0f) * PLAYER_WALK_SPEED;
-			camera->eye.x += cos((xAngle - 90) * 3.141f / 180.0) * PLAYER_WALK_SPEED;
-			camera->eye.z += sin((xAngle - 90) * 3.141f / 180.0) * PLAYER_WALK_SPEED;
+			camera->centre.x += cos((xAngle - 90) * 3.141f / 180.0f) * PLAYER_WALK_SPEED * deltaTime;
+			camera->centre.z += sin((xAngle - 90) * 3.141f / 180.0f) * PLAYER_WALK_SPEED * deltaTime;
+			camera->eye.x += cos((xAngle - 90) * 3.141f / 180.0) * PLAYER_WALK_SPEED * deltaTime;
+			camera->eye.z += sin((xAngle - 90) * 3.141f / 180.0) * PLAYER_WALK_SPEED * deltaTime;
 		}
 	}
 	if (isMovingRight) {
 		//Convert current player rotation to radians, then vector. Add to position.
-		camera->centre.x += cos(xAngle * 3.141f / 180.0f) * PLAYER_WALK_SPEED;
-		camera->centre.z += sin(xAngle * 3.141f / 180.0f) * PLAYER_WALK_SPEED;
-		camera->eye.x += cos(xAngle * 3.141f / 180.0) * PLAYER_WALK_SPEED;
-		camera->eye.z += sin(xAngle * 3.141f / 180.0) * PLAYER_WALK_SPEED;
+		camera->centre.x += cos(xAngle * 3.141f / 180.0f) * PLAYER_WALK_SPEED * deltaTime;
+		camera->centre.z += sin(xAngle * 3.141f / 180.0f) * PLAYER_WALK_SPEED * deltaTime;
+		camera->eye.x += cos(xAngle * 3.141f / 180.0) * PLAYER_WALK_SPEED * deltaTime;
+		camera->eye.z += sin(xAngle * 3.141f / 180.0) * PLAYER_WALK_SPEED * deltaTime;
 
 		//Check if player goes out of bounds, if they do, reset position back (Wall collision)
 		if (!CanPlayerMove()) {
-			camera->centre.x -= cos(xAngle * 3.141f / 180.0f) * PLAYER_WALK_SPEED;
-			camera->centre.z -= sin(xAngle * 3.141f / 180.0f) * PLAYER_WALK_SPEED;
-			camera->eye.x -= cos(xAngle * 3.141f / 180.0) * PLAYER_WALK_SPEED;
-			camera->eye.z -= sin(xAngle * 3.141f / 180.0) * PLAYER_WALK_SPEED;
+			camera->centre.x -= cos(xAngle * 3.141f / 180.0f) * PLAYER_WALK_SPEED * deltaTime;
+			camera->centre.z -= sin(xAngle * 3.141f / 180.0f) * PLAYER_WALK_SPEED * deltaTime;
+			camera->eye.x -= cos(xAngle * 3.141f / 180.0) * PLAYER_WALK_SPEED * deltaTime;
+			camera->eye.z -= sin(xAngle * 3.141f / 180.0) * PLAYER_WALK_SPEED * deltaTime;
 		}
 	}
 	if (isMovingLeft) {
 		//Convert current player rotation to radians, then vector. Subtract from position.
-		camera->centre.x -= cos(xAngle * 3.141f / 180.0f) * PLAYER_WALK_SPEED;
-		camera->centre.z -= sin(xAngle * 3.141f / 180.0f) * PLAYER_WALK_SPEED;
-		camera->eye.x -= cos(xAngle * 3.141f / 180.0) * PLAYER_WALK_SPEED;
-		camera->eye.z -= sin(xAngle * 3.141f / 180.0) * PLAYER_WALK_SPEED;
+		camera->centre.x -= cos(xAngle * 3.141f / 180.0f) * PLAYER_WALK_SPEED * deltaTime;
+		camera->centre.z -= sin(xAngle * 3.141f / 180.0f) * PLAYER_WALK_SPEED * deltaTime;
+		camera->eye.x -= cos(xAngle * 3.141f / 180.0) * PLAYER_WALK_SPEED * deltaTime;
+		camera->eye.z -= sin(xAngle * 3.141f / 180.0) * PLAYER_WALK_SPEED * deltaTime;
 
 		//Check if player goes out of bounds, if they do, reset position back (Wall collision)
 		if (!CanPlayerMove()) {
-			camera->centre.x += cos(xAngle * 3.141f / 180.0f) * PLAYER_WALK_SPEED;
-			camera->centre.z += sin(xAngle * 3.141f / 180.0f) * PLAYER_WALK_SPEED;
-			camera->eye.x += cos(xAngle * 3.141f / 180.0) * PLAYER_WALK_SPEED;
-			camera->eye.z += sin(xAngle * 3.141f / 180.0) * PLAYER_WALK_SPEED;
+			camera->centre.x += cos(xAngle * 3.141f / 180.0f) * PLAYER_WALK_SPEED * deltaTime;
+			camera->centre.z += sin(xAngle * 3.141f / 180.0f) * PLAYER_WALK_SPEED * deltaTime;
+			camera->eye.x += cos(xAngle * 3.141f / 180.0) * PLAYER_WALK_SPEED * deltaTime;
+			camera->eye.z += sin(xAngle * 3.141f / 180.0) * PLAYER_WALK_SPEED * deltaTime;
 		}
 	}
 }
@@ -306,16 +309,7 @@ bool HelloGL::CanPlayerMove() {
 }
 
 float HelloGL::GetTriangleHeight(Triangle tri) {
-	//Although theres only horizontal triangles on navigation mesh, often one of the vertices' Y position is different to the others (Not sure why),
-	//so this ensures the anomaly vertex isn't used.
-
-	if (tri.v1->y == tri.v2->y) {
-		//If v1 and v2 are the same, neither of them are the anomaly. 
-		return tri.v1->y;
-	} else {
-		//Otherwise, we know v3 isn't the anomaly.
-		return tri.v3->y;
-	}
+	return tri.v1->y;
 }
 
 float sign(Vector3 p1, Vertex* p2, Vertex* p3) {
