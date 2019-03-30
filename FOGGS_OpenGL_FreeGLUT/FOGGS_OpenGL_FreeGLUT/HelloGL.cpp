@@ -65,7 +65,7 @@ void HelloGL::InitObjects() {
 	lightData = new Lighting(Vector4(0.2f, 0.2f, 0.2f, 1.0f), Vector4(0.8f, 0.8f, 0.8f, 1.0f), Vector4(0.2f, 0.2f, 0.2f, 1.0f));
 
 	camera = new Camera();
-	camera->eye = Vector3(0, 0, 0);
+	camera->eye = Vector3(0, PLAYER_HEIGHT, 0);
 	camera->centre = Vector3(0.0f, 0.0f, 0.0f);
 	camera->up = Vector3(0.0f, 1.0f, 0.0f);
 
@@ -91,8 +91,9 @@ void HelloGL::Display() {
 		objects[i]->Draw();
 	}
 
+	//Draw skybox
 	glPushMatrix();
-	glTranslatef(camera->eye.x, (camera->eye.y + PLAYER_HEIGHT + GetGroundHeightAtPoint(camera->eye, navigationMesh)), camera->eye.z);
+	glTranslatef(camera->eye.x, camera->eye.y, camera->eye.z);
 	objects[1]->Draw();
 	glPopMatrix();
 
@@ -187,7 +188,26 @@ void HelloGL::CameraLook() {
 	//https://community.khronos.org/t/about-glulookat-function-and-how-to-rotate-the-camera/67868/2
 	glRotatef(yAngle, 1.0f, 0.0f, 0.0f);
 	glRotatef(xAngle, 0.0f, 1.0f, 0.0f);
-	glTranslatef(-camera->eye.x, -(camera->eye.y + PLAYER_HEIGHT + groundHeight), -camera->eye.z);
+
+	//Smooth verical movement
+	if (camera->eye.y < (PLAYER_HEIGHT + groundHeight)) {
+		camera->eye.y += deltaTime * PLAYER_STEP_UP_SPEED;
+
+		//If goes too far
+		if (camera->eye.y > (PLAYER_HEIGHT + groundHeight)) {
+			camera->eye.y = PLAYER_HEIGHT + groundHeight;
+		}
+	} 
+	if (camera->eye.y > (PLAYER_HEIGHT + groundHeight)) {
+		camera->eye.y -= deltaTime * PLAYER_STEP_DOWN_SPEED;
+		
+		//If goes too far
+		if (camera->eye.y < (PLAYER_HEIGHT + groundHeight)) {
+			camera->eye.y = PLAYER_HEIGHT + groundHeight;
+		}
+	}
+
+	glTranslatef(-camera->eye.x, -camera->eye.y, -camera->eye.z);
 
 	prevGroundHeight = groundHeight;
 
