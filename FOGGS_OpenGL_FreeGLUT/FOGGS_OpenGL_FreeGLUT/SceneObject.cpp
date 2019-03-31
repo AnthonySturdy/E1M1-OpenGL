@@ -5,5 +5,5 @@ SceneObject::SceneObject(TexturedMesh* _mesh) {
 }
 
 SceneObject::~SceneObject(void) {
-
+	delete mesh;
 }

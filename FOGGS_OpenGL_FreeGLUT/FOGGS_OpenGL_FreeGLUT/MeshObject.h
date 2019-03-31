@@ -9,7 +9,7 @@
 #include"Texture2D.h"
 
 class MeshObject : public SceneObject {
-private:
+protected:
 	float rotation;
 	Vector3 position;
 	Material* material;
@@ -18,8 +18,8 @@ public:
 	MeshObject(TexturedMesh* _mesh, Vector3 pos);
 	~MeshObject(void);
 
-	void Draw();
-	void Update();
+	virtual void Draw();
+	virtual void Update(float deltaTime);
 
 	void DrawIndexedCube();
 };

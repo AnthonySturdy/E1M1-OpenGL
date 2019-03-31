@@ -48,8 +48,6 @@ void HelloGL::InitGL(int argc, char* argv[]) {
 	glCullFace(GL_BACK);
 
 	//Enable texturing
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glEnable(GL_TEXTURE_2D);
 
 	//Enable lighting
@@ -115,7 +113,7 @@ void HelloGL::Update() {
 	glutPostRedisplay();
 
 	for (int i = 0; i < 2; i++) {
-		objects[i]->Update();
+		objects[i]->Update(deltaTime);
 	}
 
 	glLightfv(GL_LIGHT0, GL_AMBIENT, &(lightData->ambient.x));

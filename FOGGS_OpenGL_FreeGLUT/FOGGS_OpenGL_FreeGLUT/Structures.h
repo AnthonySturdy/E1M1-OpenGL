@@ -37,6 +37,28 @@ struct Vector4 {
 	}
 };
 
+struct Box {
+	float x, y, z, width, height, depth;
+
+	Box() {
+		x = 0;
+		y = 0;
+		z = 0;
+		width = 0;
+		height = 0;
+		depth = 0;
+	}
+
+	Box(float _x, float _y, float _z, float _width, float _height, float _depth) {
+		x = _x;
+		y = _y;
+		z = _z;
+		width = _width;
+		height = _height;
+		depth = _depth;
+	}
+};
+
 struct Camera {
 	Vector3 eye, centre, up;
 };

@@ -11,5 +11,5 @@ public:
 	virtual ~SceneObject(void);
 
 	virtual void Draw() = 0;
-	virtual void Update() = 0;
+	virtual void Update(float deltaTime) = 0;
 };

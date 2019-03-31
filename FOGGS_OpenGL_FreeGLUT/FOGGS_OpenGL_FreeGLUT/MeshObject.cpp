@@ -14,7 +14,7 @@ MeshObject::MeshObject(TexturedMesh* _mesh, Vector3 pos) : SceneObject(_mesh) {
 }
 
 MeshObject::~MeshObject() {
-
+	delete material;
 }
 
 void MeshObject::Draw() {
@@ -22,6 +22,8 @@ void MeshObject::Draw() {
 	glMaterialf(GL_FRONT, GL_SPECULAR, material->shininess);
 	glMaterialf(GL_FRONT, GL_SHININESS, material->shininess);
 	glMaterialf(GL_FRONT, GL_AMBIENT, material->ambient.x);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glPushMatrix();
 	glBindTexture(GL_TEXTURE_2D, mesh->texture->GetID());	//Bind the texture to the ID
 	glTranslatef(position.x, position.y, position.z);
@@ -30,7 +32,7 @@ void MeshObject::Draw() {
 	glPopMatrix();
 }
 
-void MeshObject::Update() {
+void MeshObject::Update(float deltaTime) {
 	//rotation += 0.5f;
 }
 
