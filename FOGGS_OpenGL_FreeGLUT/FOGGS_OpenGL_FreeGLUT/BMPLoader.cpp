@@ -26,7 +26,7 @@ namespace BMPLoader {
 			bmp->width = *(unsigned int*)&info[18];
 			bmp->height = *(unsigned int*)&info[22];
 
-			unsigned long size = ((((bmp->width * bmp->height) + 31) & ~31) / 8) * bmp->height;
+			unsigned long long size = ((((bmp->width * bmp->height) + 31) & ~31) / 8) * bmp->height;
 			bmp->pixels = new unsigned char[size];
 			inFile.read((char*)bmp->pixels, size);
 			inFile.close();

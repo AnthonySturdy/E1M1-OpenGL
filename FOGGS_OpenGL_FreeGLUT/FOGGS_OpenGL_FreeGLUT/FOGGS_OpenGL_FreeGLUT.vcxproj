@@ -116,7 +116,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BMPLoader.cpp" />
-    <ClCompile Include="BoxCollision.cpp" />
     <ClCompile Include="MeshObject.cpp" />
     <ClCompile Include="LinkedList.cpp" />
     <ClCompile Include="SceneObject.cpp" />
@@ -128,7 +127,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BMPLoader.h" />
-    <ClInclude Include="BoxCollision.h" />
     <ClInclude Include="MeshObject.h" />
     <ClInclude Include="LinkedList.h" />
     <ClInclude Include="SceneObject.h" />
