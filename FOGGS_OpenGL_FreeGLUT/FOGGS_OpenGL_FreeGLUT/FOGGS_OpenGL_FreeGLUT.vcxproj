@@ -123,6 +123,7 @@
     <ClCompile Include="HelloGL.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MeshLoader.cpp" />
+    <ClCompile Include="SphereColliderObject.cpp" />
     <ClCompile Include="Texture2D.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -134,6 +135,7 @@
     <ClInclude Include="HelloGL.h" />
     <ClInclude Include="MeshLoader.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="SphereColliderObject.h" />
     <ClInclude Include="Structures.h" />
     <ClInclude Include="Texture2D.h" />
   </ItemGroup>
