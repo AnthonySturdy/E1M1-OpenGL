@@ -22,4 +22,8 @@ public:
 	virtual void Update(float deltaTime);
 
 	void DrawIndexedCube();
+
+
+	virtual bool IsPointInCollider(Vector3 point) { std::cout << "IsPointInCollider() function hasn't been overridden! Is being called from MeshObject." << std::endl;  return false; };
+
 };

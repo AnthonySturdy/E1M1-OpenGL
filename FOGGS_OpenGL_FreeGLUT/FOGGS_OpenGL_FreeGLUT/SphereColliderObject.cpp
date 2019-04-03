@@ -9,14 +9,15 @@ SphereColliderObject::~SphereColliderObject() {
 }
 
 bool SphereColliderObject::IsPointInCollider(Vector3 point) {
+	float dist = sqrt(pow(point.x - position.x, 2) + pow(point.y - position.y, 2) + pow(point.z - position.z, 2));
+
+	if (dist <= radius) {
+		return true;
+	}
 
 	return false;
 }
 
-void SphereColliderObject::Destroy() {
-
-}
-
-void SphereColliderObject::Update() {
-
+void SphereColliderObject::Update(float deltaTime) {
+	rotation += deltaTime * 40;
 }

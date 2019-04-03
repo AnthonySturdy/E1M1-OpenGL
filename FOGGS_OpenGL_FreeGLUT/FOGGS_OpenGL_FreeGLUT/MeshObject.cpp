@@ -7,8 +7,8 @@
 MeshObject::MeshObject(TexturedMesh* _mesh, Vector3 pos) : SceneObject(_mesh) {
 	rotation = 0.0f;
 	position = pos;
-	material = new Material(Vector4(1.0f, 1.0f, 1.0f, 1.0f),
-							Vector4(1.0f, 1.0f, 1.0f, 1.0f),
+	material = new Material(Vector4(0.05f, 0.8f, 0.05f, 1.0f),
+							Vector4(0.05f, 0.8f, 0.05f, 1.0f),
 							Vector4(1.0f, 1.0f, 1.0f, 1.0f),
 							100.0f);
 }
@@ -18,16 +18,14 @@ MeshObject::~MeshObject() {
 }
 
 void MeshObject::Draw() {
-	glMaterialf(GL_FRONT, GL_DIFFUSE, material->shininess);
-	glMaterialf(GL_FRONT, GL_SPECULAR, material->shininess);
+	glMaterialfv(GL_FRONT, GL_AMBIENT, &(material->ambient.x));
 	glMaterialf(GL_FRONT, GL_SHININESS, material->shininess);
-	glMaterialf(GL_FRONT, GL_AMBIENT, material->ambient.x);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glPushMatrix();
 	glBindTexture(GL_TEXTURE_2D, mesh->texture->GetID());	//Bind the texture to the ID
 	glTranslatef(position.x, position.y, position.z);
-	glRotatef(rotation, 1.0f, 1.0f, 0.0f);
+	glRotatef(rotation, 0.0f, 1.0f, 0.0f);
 	DrawIndexedCube();
 	glPopMatrix();
 }

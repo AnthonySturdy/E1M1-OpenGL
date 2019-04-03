@@ -8,9 +8,8 @@ public:
 	~SphereColliderObject();
 
 	bool IsPointInCollider(Vector3 point);
-	void Destroy();
 
-	void Update();
+	void Update(float deltaTime);
 
 private:
 	float radius;

@@ -67,27 +67,46 @@ void HelloGL::InitObjects() {
 	camera->centre = Vector3(0.0f, 0.0f, 0.0f);
 	camera->up = Vector3(0.0f, 1.0f, 0.0f);
 
-	Texture2D* bananaTexture = new Texture2D();
-	bananaTexture->LoadFromData(BMPLoader::LoadBitMap("Assets/Textures/E1M1_Texture.bmp"), 2048, 2048);
-	TexturedMesh* levelMesh = MeshLoader::LoadOBJ("Assets/Models/E1M1_Textured.obj", bananaTexture);
-	SceneObject* object = new MeshObject(levelMesh, Vector3(0, 0, 0));
-	objects.push_back(object);
+	Texture2D* levelTexture = new Texture2D();
+	levelTexture->LoadFromData(BMPLoader::LoadBitMap("Assets/Textures/E1M1_Texture.bmp"), 2048, 2048);
+	TexturedMesh* levelMesh = MeshLoader::LoadOBJ("Assets/Models/E1M1_Textured.obj", levelTexture);
+	SceneObject* levelObject = new MeshObject(levelMesh, Vector3(0, 0, 0));
+	objects.push_back(levelObject);
 
-	navigationMesh = MeshLoader::LoadOBJ("Assets/Models/E1M1_Navigation.obj", bananaTexture);
+	navigationMesh = MeshLoader::LoadOBJ("Assets/Models/E1M1_Navigation.obj", levelTexture);
 
-	Texture2D* cubemapTexture = new Texture2D();
-	cubemapTexture->LoadFromData(BMPLoader::LoadBitMap("Assets/Textures/skybox.bmp"), 1024, 1024);
-	TexturedMesh* skyboxMesh = MeshLoader::LoadOBJ("Assets/Models/Skybox.obj", cubemapTexture);
-	SceneObject* cubemapObject = new MeshObject(skyboxMesh, Vector3(0, 0, 0));
-	objects.push_back(cubemapObject);
+	Texture2D* skyboxTexture = new Texture2D();
+	skyboxTexture->LoadFromData(BMPLoader::LoadBitMap("Assets/Textures/skybox.bmp"), 1024, 1024);
+	TexturedMesh* skyboxMesh = MeshLoader::LoadOBJ("Assets/Models/Skybox.obj", skyboxTexture);
+	SceneObject* skyboxObject = new MeshObject(skyboxMesh, Vector3(0, 0, 0));
+	objects.push_back(skyboxObject);
+
+	Texture2D* armourTexture = new Texture2D();
+	armourTexture->LoadFromData(BMPLoader::LoadBitMap("Assets/Textures/ArmourTexture.bmp"), 256, 256);
+	TexturedMesh* armourMesh = MeshLoader::LoadOBJ("Assets/Models/ArmourPickup.obj", armourTexture);
+	armourObject1 = new SphereColliderObject(armourMesh, Vector3(127.8f, 14.3f, 40.7f), 5);
+	armourObject2 = new SphereColliderObject(armourMesh, Vector3(-78.3f, -6.5f, 36.8f), 5);
 }
 
 void HelloGL::Display() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	for (int i = 0; i < 1; i++) {
-		objects[i]->Draw();
-	}
+	//Draw Level
+	objects[0]->Draw();
+
+	//Draw armour pieces
+	glPushMatrix();
+	glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHT0);
+
+	if (armourObject1->GetIsActive())
+		armourObject1->Draw();
+	if (armourObject2->GetIsActive())
+		armourObject2->Draw();
+
+	glDisable(GL_LIGHT0);
+	glDisable(GL_LIGHTING);
+	glPopMatrix();
 
 	//Draw skybox
 	glPushMatrix();
@@ -105,6 +124,8 @@ void HelloGL::Update() {
 	deltaTime = (glutGet(GLUT_ELAPSED_TIME) / 1000.0f) - prevElapsedTime;
 	prevElapsedTime = (glutGet(GLUT_ELAPSED_TIME) / 1000.0f);
 
+	std::cout << camera->eye.x << ", " << camera->eye.y - PLAYER_HEIGHT << ", " << camera->eye.z << std::endl;
+
 	glLoadIdentity();	//Reset matrix
 
 	Movement();
@@ -114,6 +135,19 @@ void HelloGL::Update() {
 
 	for (int i = 0; i < 2; i++) {
 		objects[i]->Update(deltaTime);
+	}
+
+	if(armourObject1->GetIsActive())
+		armourObject1->Update(deltaTime);
+	if (armourObject2->GetIsActive())
+		armourObject2->Update(deltaTime);
+	
+	if (armourObject1->IsPointInCollider(camera->eye)) {
+		//Collect armour
+		armourObject1->SetIsActive(false);
+	} else if (armourObject2->IsPointInCollider(camera->eye)) {
+		//Collect armour
+		armourObject2->SetIsActive(false);
 	}
 
 	glLightfv(GL_LIGHT0, GL_AMBIENT, &(lightData->ambient.x));

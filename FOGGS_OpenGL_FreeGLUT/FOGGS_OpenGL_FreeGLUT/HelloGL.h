@@ -11,6 +11,7 @@
 #include"SceneObject.h"
 #include"MeshLoader.h"
 #include"MeshObject.h"
+#include"SphereColliderObject.h"
 #include"Texture2D.h"
 #include"BMPLoader.h"
 #include"LinkedList.h"
@@ -57,6 +58,8 @@ private:
 
 	std::vector<SceneObject*> objects;
 	TexturedMesh* navigationMesh;
+	SceneObject* armourObject1;
+	SceneObject* armourObject2;
 	void DebugNavigationMesh();
 
 	float GetTriangleHeight(Triangle tri);	//Only used for navigation mesh!
