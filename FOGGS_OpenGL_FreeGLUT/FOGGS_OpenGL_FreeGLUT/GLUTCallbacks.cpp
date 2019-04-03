@@ -33,4 +33,11 @@ namespace GLUTCallbacks {
 	void KeyboardUp(unsigned char key, int x, int y) {
 		helloGL->KeyboardUp(key, x, y);
 	}
+
+	void SpecialDown(int key, int x, int y) {
+		helloGL->SpecialDown(key, x, y);
+	}
+	void SpecialUp(int key, int x, int y) {
+		helloGL->SpecialUp(key, x, y);
+	}
 }

@@ -7,7 +7,20 @@ HelloGL::HelloGL(int argc, char* argv[]) {
 }
 
 HelloGL::~HelloGL() {
+	delete camera;
 
+	for (int i = 0; i < objects.size(); i++) {
+		delete objects[i];
+	}
+	objects.clear();
+
+	delete navigationMesh;
+	delete armourObject1;
+	delete armourObject2;
+	delete gunObject;
+	
+	delete lightPosition;
+	delete lightData;
 }
 
 void HelloGL::InitGL(int argc, char* argv[]) {
@@ -30,6 +43,8 @@ void HelloGL::InitGL(int argc, char* argv[]) {
 	glutTimerFunc(REFRESHRATE, GLUTCallbacks::Timer, REFRESHRATE);
 	glutKeyboardFunc(GLUTCallbacks::KeyboardDown);
 	glutKeyboardUpFunc(GLUTCallbacks::KeyboardUp);
+	glutSpecialFunc(GLUTCallbacks::SpecialDown);
+	glutSpecialUpFunc(GLUTCallbacks::SpecialUp);
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
@@ -72,7 +87,7 @@ void HelloGL::InitObjects() {
 	navigationMesh = MeshLoader::LoadOBJ("Assets/Models/E1M1_Navigation.obj", levelTexture);
 
 	Texture2D* skyboxTexture = new Texture2D();
-	skyboxTexture->LoadFromData(BMPLoader::LoadBitMap("Assets/Textures/skybox.bmp"), 1024, 1024);
+	skyboxTexture->LoadFromData(BMPLoader::LoadBitMap("Assets/Textures/skybox.bmp"), 512, 512);
 	TexturedMesh* skyboxMesh = MeshLoader::LoadOBJ("Assets/Models/Skybox.obj", skyboxTexture);
 	SceneObject* skyboxObject = new MeshObject(skyboxMesh, Vector3(0, 0, 0));
 	objects.push_back(skyboxObject);
@@ -82,6 +97,11 @@ void HelloGL::InitObjects() {
 	TexturedMesh* armourMesh = MeshLoader::LoadOBJ("Assets/Models/ArmourPickup.obj", armourTexture);
 	armourObject1 = new SphereColliderObject(armourMesh, Vector3(127.8f, 14.3f, 40.7f), 5);
 	armourObject2 = new SphereColliderObject(armourMesh, Vector3(-78.3f, -6.5f, 36.8f), 5);
+
+	Texture2D* gunTexture = new Texture2D();
+	gunTexture->LoadFromData(BMPLoader::LoadBitMap("Assets/Textures/shotgun.bmp"), 512, 512);
+	TexturedMesh* gunMesh = MeshLoader::LoadOBJ("Assets/Models/Shotgun.obj", gunTexture);
+	gunObject = new MeshObject(gunMesh, Vector3(0, 0, 0));
 }
 
 void HelloGL::Display() {
@@ -102,6 +122,22 @@ void HelloGL::Display() {
 	glDisable(GL_LIGHTING);
 	glPopMatrix();
 
+	//Draw gun
+	glPushMatrix();
+	glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHT0);
+
+	float y_offset = 0;
+	//			<-Check if player is moving------------------------------------------>		  <-Frequency--------------------------------------------------------------------------------------------> <-Mag>
+	y_offset = ((isMovingForward || isMovingBackward || isMovingLeft || isMovingRight) ? sin((glutGet(GLUT_ELAPSED_TIME) / 3000.0f) * PLAYER_WALK_SPEED * (isSprinting ? PLAYER_SPRINT_MULTIPLIER : 1)) / 3 : 0);
+	glTranslatef(camera->eye.x, camera->eye.y - 4 + y_offset, camera->eye.z);
+	glRotatef(-(xAngle+90), 0.0f, 1.0f, 0.0f);
+	gunObject->Draw();
+
+	glDisable(GL_LIGHT0);
+	glDisable(GL_LIGHTING);
+	glPopMatrix();
+
 	//Draw skybox
 	glPushMatrix();
 	glTranslatef(camera->eye.x, camera->eye.y, camera->eye.z);
@@ -118,7 +154,12 @@ void HelloGL::Update() {
 	deltaTime = (glutGet(GLUT_ELAPSED_TIME) / 1000.0f) - prevElapsedTime;
 	prevElapsedTime = (glutGet(GLUT_ELAPSED_TIME) / 1000.0f);
 
-	std::cout << camera->eye.x << ", " << camera->eye.y - PLAYER_HEIGHT << ", " << camera->eye.z << std::endl;
+	if(isSprinting)
+		std::cout << isSprinting << std::endl;
+
+	if (!isMovingForward && !isMovingBackward && !isMovingLeft && !isMovingRight) {
+		isSprinting = false;
+	}
 
 	glLoadIdentity();	//Reset matrix
 
@@ -130,6 +171,8 @@ void HelloGL::Update() {
 	for (int i = 0; i < 2; i++) {
 		objects[i]->Update(deltaTime);
 	}
+
+	gunObject->Update(deltaTime);
 
 	if(armourObject1->GetIsActive())
 		armourObject1->Update(deltaTime);
@@ -149,6 +192,8 @@ void HelloGL::Update() {
 }
 
 void HelloGL::KeyboardDown(unsigned char key, int x, int y) {
+	std::cout << key << std::endl;
+
 	unsigned char k = tolower(key);	//Fix problem where input is different when caps lock on
 
 	if (k == 'w') {
@@ -167,6 +212,11 @@ void HelloGL::KeyboardDown(unsigned char key, int x, int y) {
 		//Convert current player rotation to radians, then vector. Subtract from position.
 		isMovingLeft = true;
 	} 
+
+	//If is capital / player is pressing shift
+	if (k != key) {
+		isSprinting = true;
+	}
 }
 
 void HelloGL::KeyboardUp(unsigned char key, int x, int y) {
@@ -187,6 +237,18 @@ void HelloGL::KeyboardUp(unsigned char key, int x, int y) {
 	if (k == 'a') {
 		//Convert current player rotation to radians, then vector. Subtract from position.
 		isMovingLeft = false;
+	}
+}
+
+void HelloGL::SpecialDown(int key, int x, int y) {
+	if (key == GLUT_ACTIVE_SHIFT) {
+		isSprinting = true;
+	}
+}
+
+void HelloGL::SpecialUp(int key, int x, int y) {
+	if (key == GLUT_ACTIVE_SHIFT) {
+		isSprinting = false;
 	}
 }
 
@@ -275,17 +337,17 @@ void HelloGL::DebugNavigationMesh() {
 void HelloGL::Movement() {
 	if (isMovingForward) {
 		//Convert current player rotation to radians, then vector. Add to position.
-		camera->centre.x += cos((xAngle - 90) * 3.141f / 180.0f) * PLAYER_WALK_SPEED * deltaTime;
-		camera->centre.z += sin((xAngle - 90) * 3.141f / 180.0f) * PLAYER_WALK_SPEED * deltaTime;
-		camera->eye.x += cos((xAngle - 90) * 3.141f / 180.0) * PLAYER_WALK_SPEED * deltaTime;
-		camera->eye.z += sin((xAngle - 90) * 3.141f / 180.0) * PLAYER_WALK_SPEED * deltaTime;
+		camera->centre.x += cos((xAngle - 90) * 3.141f / 180.0f) * PLAYER_WALK_SPEED * (isSprinting ? PLAYER_SPRINT_MULTIPLIER : 1) * deltaTime;
+		camera->centre.z += sin((xAngle - 90) * 3.141f / 180.0f) * PLAYER_WALK_SPEED * (isSprinting ? PLAYER_SPRINT_MULTIPLIER : 1) * deltaTime;
+		camera->eye.x += cos((xAngle - 90) * 3.141f / 180.0) * PLAYER_WALK_SPEED * (isSprinting ? PLAYER_SPRINT_MULTIPLIER : 1) * deltaTime;
+		camera->eye.z += sin((xAngle - 90) * 3.141f / 180.0) * PLAYER_WALK_SPEED * (isSprinting ? PLAYER_SPRINT_MULTIPLIER : 1) * deltaTime;
 
 		//Check if player goes out of bounds, if they do, reset position back (Wall collision)
 		if (!CanPlayerMove()) {
-			camera->centre.x -= cos((xAngle - 90) * 3.141f / 180.0f) * PLAYER_WALK_SPEED * deltaTime;
-			camera->centre.z -= sin((xAngle - 90) * 3.141f / 180.0f) * PLAYER_WALK_SPEED * deltaTime;
-			camera->eye.x -= cos((xAngle - 90) * 3.141f / 180.0) * PLAYER_WALK_SPEED * deltaTime;
-			camera->eye.z -= sin((xAngle - 90) * 3.141f / 180.0) * PLAYER_WALK_SPEED * deltaTime;
+			camera->centre.x -= cos((xAngle - 90) * 3.141f / 180.0f) * PLAYER_WALK_SPEED * (isSprinting ? PLAYER_SPRINT_MULTIPLIER : 1) * deltaTime;
+			camera->centre.z -= sin((xAngle - 90) * 3.141f / 180.0f) * PLAYER_WALK_SPEED * (isSprinting ? PLAYER_SPRINT_MULTIPLIER : 1) * deltaTime;
+			camera->eye.x -= cos((xAngle - 90) * 3.141f / 180.0) * PLAYER_WALK_SPEED * (isSprinting ? PLAYER_SPRINT_MULTIPLIER : 1) * deltaTime;
+			camera->eye.z -= sin((xAngle - 90) * 3.141f / 180.0) * PLAYER_WALK_SPEED * (isSprinting ? PLAYER_SPRINT_MULTIPLIER : 1) * deltaTime;
 		}
 	}
 	if (isMovingBackward) {

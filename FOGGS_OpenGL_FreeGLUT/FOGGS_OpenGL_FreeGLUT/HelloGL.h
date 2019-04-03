@@ -23,6 +23,7 @@
 
 #define MOUSE_SENSITIVITY 3
 #define PLAYER_WALK_SPEED 16
+#define PLAYER_SPRINT_MULTIPLIER 1.8
 #define PLAYER_HEIGHT 4.5
 #define PLAYER_MAX_STEP_HEIGHT 2.5
 #define PLAYER_STEP_UP_SPEED 18
@@ -41,6 +42,8 @@ public:
 	void Update();
 	void KeyboardDown(unsigned char key, int x, int y);
 	void KeyboardUp(unsigned char key, int x, int y);
+	void SpecialDown(int key, int x, int y);
+	void SpecialUp(int key, int x, int y);
 
 private:
 	float prevElapsedTime = 0;
@@ -53,6 +56,7 @@ private:
 
 	void Movement();
 	bool isMovingForward, isMovingBackward, isMovingLeft, isMovingRight;
+	bool isSprinting;
 	bool CanPlayerMove();
 	float prevGroundHeight = 0;
 
@@ -60,6 +64,7 @@ private:
 	TexturedMesh* navigationMesh;
 	SceneObject* armourObject1;
 	SceneObject* armourObject2;
+	SceneObject* gunObject;
 	void DebugNavigationMesh();
 
 	float GetTriangleHeight(Triangle tri);	//Only used for navigation mesh!

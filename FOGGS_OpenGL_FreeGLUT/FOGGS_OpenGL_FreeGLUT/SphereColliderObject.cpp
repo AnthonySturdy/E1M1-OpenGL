@@ -2,6 +2,12 @@
 
 SphereColliderObject::SphereColliderObject(TexturedMesh* _mesh, Vector3 pos, float _radius) : MeshObject(_mesh, pos) {
 	radius = _radius;
+
+	delete material;
+	material = new Material(Vector4(0.05f, 0.8f, 0.05f, 1.0f),
+		Vector4(0.05f, 0.8f, 0.05f, 1.0f),
+		Vector4(1.0f, 1.0f, 1.0f, 1.0f),
+		100.0f);
 }
 
 SphereColliderObject::~SphereColliderObject() {
