@@ -50,10 +50,6 @@ void HelloGL::InitGL(int argc, char* argv[]) {
 	//Enable texturing
 	glEnable(GL_TEXTURE_2D);
 
-	//Enable lighting
-	//glEnable(GL_LIGHTING);
-	//glEnable(GL_LIGHT0);
-
 	//Disable Mouse
 	glutSetCursor(GLUT_CURSOR_NONE);
 }
@@ -98,12 +94,10 @@ void HelloGL::Display() {
 	glPushMatrix();
 	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
-
 	if (armourObject1->GetIsActive())
 		armourObject1->Draw();
 	if (armourObject2->GetIsActive())
 		armourObject2->Draw();
-
 	glDisable(GL_LIGHT0);
 	glDisable(GL_LIGHTING);
 	glPopMatrix();
