@@ -5,6 +5,7 @@
 #include<gl/GLU.h>
 #include<vector>
 #include"GL/freeglut.h"
+#include<sstream>
 
 #include"GLUTCallbacks.h"
 #include"Structures.h"
@@ -15,6 +16,7 @@
 #include"Texture2D.h"
 #include"BMPLoader.h"
 #include"LinkedList.h"
+#include"SceneGraph.h"
 
 #define SCREEN_WIDTH 1920
 #define SCREEN_HEIGHT 1080
@@ -62,10 +64,13 @@ private:
 
 	std::vector<SceneObject*> objects;
 	TexturedMesh* navigationMesh;
+	int armourCount = 0;
 	SceneObject* armourObject1;
 	SceneObject* armourObject2;
 	SceneObject* gunObject;
 	void DebugNavigationMesh();
+
+	void DrawString(void* font, const unsigned char* str, int x, int y);
 
 	float GetTriangleHeight(Triangle tri);	//Only used for navigation mesh!
 	bool IsPointInsideTriangle(Vector3 s, Triangle tri); //This is 2D not 3D

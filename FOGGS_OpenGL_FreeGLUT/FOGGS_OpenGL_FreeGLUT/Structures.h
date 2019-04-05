@@ -2,6 +2,9 @@
 
 #include"GL/freeglut.h"
 #include"Texture2D.h"
+//#include"SceneObject.h"	//THIS IS WHERE ERROR IS
+class SceneObject;
+#include<string>
 
 struct Vector3 {
 	float x, y, z;
@@ -135,4 +138,12 @@ struct ListNode {
 	ListNode(int* _data) {
 		data = _data;
 	}
+};
+
+struct BinaryNode {
+	std::string label;
+	SceneObject* data;
+
+	BinaryNode* child;
+	BinaryNode* sibling;
 };

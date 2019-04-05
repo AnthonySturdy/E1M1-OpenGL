@@ -118,6 +118,7 @@
     <ClCompile Include="BMPLoader.cpp" />
     <ClCompile Include="MeshObject.cpp" />
     <ClCompile Include="LinkedList.cpp" />
+    <ClCompile Include="SceneGraph.cpp" />
     <ClCompile Include="SceneObject.cpp" />
     <ClCompile Include="GLUTCallbacks.cpp" />
     <ClCompile Include="HelloGL.cpp" />
@@ -130,6 +131,7 @@
     <ClInclude Include="BMPLoader.h" />
     <ClInclude Include="MeshObject.h" />
     <ClInclude Include="LinkedList.h" />
+    <ClInclude Include="SceneGraph.h" />
     <ClInclude Include="SceneObject.h" />
     <ClInclude Include="GLUTCallbacks.h" />
     <ClInclude Include="HelloGL.h" />
