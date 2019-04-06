@@ -2,7 +2,6 @@
 
 #include"GL/freeglut.h"
 #include"Texture2D.h"
-//#include"SceneObject.h"	//THIS IS WHERE ERROR IS
 class SceneObject;
 #include<string>
 

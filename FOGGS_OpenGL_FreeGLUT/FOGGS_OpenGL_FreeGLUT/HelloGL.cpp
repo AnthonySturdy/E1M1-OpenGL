@@ -105,22 +105,23 @@ void HelloGL::InitObjects() {
 
 
 	//Scene Graph Heirarchy
-	BinaryNode* head;
 	BinaryNode* armourSG1, *armourSG2, *levelSG, *gunSG, *skyboxSG;
+
 	armourSG1 = SceneGraph::MakeNode(armourObject1, "Armour 1");
 	armourSG2 = SceneGraph::MakeNode(armourObject2, "Armour 2");
-	armourSG2->sibling = armourSG1;
-	armourSG1->sibling = armourSG2;
 	levelSG = SceneGraph::MakeNode(levelObject, "E1M1 Level");
-	levelSG->child = armourSG1;
 	gunSG = SceneGraph::MakeNode(gunObject, "Shotgun");
-	levelSG->sibling = gunSG;
-	gunSG->sibling = levelSG;
-	skyboxSG = SceneGraph::MakeNode(skyboxObject, "Skybox");
-	skyboxSG->child = levelSG;
-	head = skyboxSG;
+	skyboxSG = SceneGraph::MakeNode(skyboxObject, "Skybox");	//This is the head
 
-	SceneGraph::Traverse(head);
+	skyboxSG->child = levelSG;
+	levelSG->sibling = gunSG;
+	levelSG->child = armourSG1;
+	armourSG1->sibling = armourSG2;
+
+	std::cout << "--TRAVERSING TREE--";
+	SceneGraph::Traverse(skyboxSG);
+	std::cout << "\n\n--DELETING TREE--";
+	SceneGraph::DeleteTree(skyboxSG);
 }
 
 void HelloGL::Display() {
