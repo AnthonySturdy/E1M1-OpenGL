@@ -184,9 +184,6 @@ void HelloGL::Update() {
 	deltaTime = (glutGet(GLUT_ELAPSED_TIME) / 1000.0f) - prevElapsedTime;
 	prevElapsedTime = (glutGet(GLUT_ELAPSED_TIME) / 1000.0f);
 
-	if(isSprinting)
-		std::cout << isSprinting << std::endl;
-
 	if (!isMovingForward && !isMovingBackward && !isMovingLeft && !isMovingRight) {
 		isSprinting = false;
 	}
@@ -242,6 +239,11 @@ void HelloGL::KeyboardDown(unsigned char key, int x, int y) {
 		//Convert current player rotation to radians, then vector. Subtract from position.
 		isMovingLeft = true;
 	} 
+
+	// 27 = Esc. https://community.khronos.org/t/how-to-quit-opengl-by-a-key/59739/2
+	if (key == 27) {
+		exit(0);
+	}
 
 	//If is capital / player is pressing shift
 	if (k != key) {

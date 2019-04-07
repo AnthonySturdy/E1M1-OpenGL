@@ -1,0 +1,8 @@
+E1M1 Textures:
+https://sketchfab.com/3d-models/doom-e1m1-hangar-map-2148fb6a3fe7454b901fcea67d70b318
+
+Skybox:
+http://scmapdb.wdfiles.com/local--files/skybox:doom1/0-doom1-skybox.png
+
+ArmourTexture:
+https://www.google.com/search?q=metal+texture&rlz=1C1CHWA_enGB624GB624&source=lnms&tbm=isch&sa=X&ved=0ahUKEwjEg-jy9r7hAhUmRBUIHU6qBVMQ_AUIDigB&biw=1920&bih=937#imgrc=ZPlRgDrNmheUoM:
