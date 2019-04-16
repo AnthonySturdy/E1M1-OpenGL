@@ -16,7 +16,7 @@ It is my university coursework submission for my Fundamentals of Game and Graphi
  - UI text
 
 ## What I learned
-This project was an introduction for me on 3D rendering. It has taught me the basics of rendering using OpenGL, I hope to use what this project has taught me to expand upon in future projects to make more advanced software.
+This project was an introduction for me on 3D rendering. It has taught me the basics of rendering using OpenGL, I hope to use what this project has taught me to expand upon in future projects and make more advanced software.
 
 This project also gave me more experience using C++ and using good programming practices.
 
