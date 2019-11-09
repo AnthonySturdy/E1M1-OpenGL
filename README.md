@@ -1,5 +1,5 @@
 # E1M1 Rendered in OpenGL.
-This project is an E1M1 (from the original 1993 Doom) 3D model rendered in OpenGL using FreeGLUT.
+This project is an E1M1 (from the original 1993 Doom) 3D model rendered in OpenGL using FreeGLUT. (Fixed Function Pipeline)
 
 It is my university coursework submission for my Fundamentals of Game and Graphical Systems Development module, semester 2. It's also the first 3D rendering software I've developed.
 
